@@ -1,0 +1,34 @@
+{
+  "name": "yonier-color-presenter",
+  "version": "1.0.0",
+  "description": "Yonier Color Presenter - Drawing and annotation app for Mac presentations",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "dev": "electron . --dev"
+  },
+  "keywords": ["drawing", "presentation", "annotation", "mac"],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^32.1.2",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.yonier.color-presenter",
+    "productName": "Yonier Color Presenter",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "node_modules/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": "dmg"
+    }
+  }
+}
