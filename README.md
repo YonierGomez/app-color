@@ -23,7 +23,20 @@ Todo desde un pequeño icono en tu barra de menú - ¡súper discreto! 🤫
 
 ## 🚀 ¿Cómo empezar?
 
-### 📥 Instalación súper fácil:
+### � ¡Descarga directa para macOS!
+
+**¿Solo quieres usar la app sin complicaciones?** 
+
+👉 **[Descargar Yonier Color Presenter v1.0 (.dmg)](https://github.com/YonierGomez/app-color/releases/download/v1.0.0/Yonier.Color.Presenter-1.0.0-arm64.dmg)**
+
+1. 📥 Haz clic en el enlace de arriba
+2. 📂 Abre el archivo .dmg descargado  
+3. 🖱️ Arrastra la app a tu carpeta Aplicaciones
+4. 🎨 ¡Listo para dibujar!
+
+### 👨‍💻 ¿Prefieres instalación desde código?
+
+### �📥 Instalación súper fácil:
 
 1. **Descarga el proyecto:**
    ```bash

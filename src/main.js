@@ -62,15 +62,28 @@ function createOverlayWindow() {
 function toggleDrawingMode() {
   if (!isDrawingMode) {
     // Activar modo dibujo
-    overlayWindow.setIgnoreMouseEvents(false);
-    overlayWindow.show();
-    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+    // Limpiar canvas antes de activar para asegurar pantalla limpia
+    overlayWindow.webContents.send('clear-drawing');
+    
+    // Pequeña pausa para asegurar que se procese el clear
+    setTimeout(() => {
+      overlayWindow.setIgnoreMouseEvents(false);
+      overlayWindow.show();
+      overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+    }, 50);
+    
     isDrawingMode = true;
     console.log('Modo dibujo activado - Herramienta inicial: Rectángulo');
   } else {
     // Desactivar modo dibujo y resetear todo
-    overlayWindow.setIgnoreMouseEvents(true);
-    overlayWindow.hide();
+    // PRIMERO limpiar el canvas mientras la ventana está visible
+    overlayWindow.webContents.send('clear-drawing');
+    
+    // Pequeña pausa para asegurar que se procese el clear antes de ocultar
+    setTimeout(() => {
+      overlayWindow.setIgnoreMouseEvents(true);
+      overlayWindow.hide();
+    }, 100);
     
     // Resetear configuración a valores iniciales
     currentTool = 'rectangle';
@@ -78,9 +91,6 @@ function toggleDrawingMode() {
     currentSize = 3;
     colorIndex = 0;
     sizeIndex = 1;
-    
-    // Limpiar el canvas
-    overlayWindow.webContents.send('clear-drawing');
     
     isDrawingMode = false;
     console.log('Modo dibujo desactivado - Configuración reseteada (por defecto: Rectángulo)');
@@ -163,13 +173,15 @@ function resetAll() {
   colorIndex = 0;
   sizeIndex = 1;
   
-  // Limpiar el canvas
+  // Limpiar el canvas primero
   if (overlayWindow) {
     overlayWindow.webContents.send('clear-drawing');
     
-    // Si está en modo dibujo, actualizar herramienta
+    // Si está en modo dibujo, actualizar herramienta después de limpiar
     if (isDrawingMode) {
-      overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+      setTimeout(() => {
+        overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+      }, 100);
     }
   }
   

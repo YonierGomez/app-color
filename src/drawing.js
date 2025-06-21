@@ -17,6 +17,9 @@ class DrawingApp {
         this.history = [];
         this.historyStep = -1;
         
+        // Estado para preview de formas
+        this.previewState = null;
+        
         // Canvas temporal para preview de formas
         this.tempCanvas = document.createElement('canvas');
         this.tempCtx = this.tempCanvas.getContext('2d');
@@ -116,72 +119,83 @@ class DrawingApp {
     
     startDrawing(e) {
         this.isDrawing = true;
-        this.startX = e.clientX;
-        this.startY = e.clientY;
+        
+        // Obtener coordenadas relativas al canvas
+        const rect = this.canvas.getBoundingClientRect();
+        this.startX = e.clientX - rect.left;
+        this.startY = e.clientY - rect.top;
         
         if (this.currentTool === 'pen') {
             this.ctx.globalCompositeOperation = 'source-over';
             this.ctx.strokeStyle = this.currentColor;
             this.ctx.lineWidth = this.currentSize;
             this.ctx.beginPath();
-            this.ctx.moveTo(e.clientX, e.clientY);
+            this.ctx.moveTo(this.startX, this.startY);
+        } else if (this.currentTool === 'rectangle' || this.currentTool === 'circle') {
+            // Guardar el estado actual antes de empezar el preview
+            this.savePreviewState();
         }
     }
     
     draw(e) {
         if (!this.isDrawing) return;
         
+        // Obtener coordenadas relativas al canvas
+        const rect = this.canvas.getBoundingClientRect();
+        const currentX = e.clientX - rect.left;
+        const currentY = e.clientY - rect.top;
+        
         switch (this.currentTool) {
             case 'pen':
-                this.drawPen(e);
+                this.drawPen(currentX, currentY);
                 break;
             case 'eraser':
-                this.drawEraser(e);
+                this.drawEraser(currentX, currentY);
                 break;
             case 'rectangle':
-                this.drawRectanglePreview(e);
+                this.drawRectanglePreview(currentX, currentY);
                 break;
             case 'circle':
-                this.drawCirclePreview(e);
+                this.drawCirclePreview(currentX, currentY);
                 break;
         }
     }
     
-    drawPen(e) {
-        this.ctx.lineTo(e.clientX, e.clientY);
+    drawPen(x, y) {
+        this.ctx.lineTo(x, y);
         this.ctx.stroke();
     }
     
-    drawEraser(e) {
+    drawEraser(x, y) {
         this.ctx.globalCompositeOperation = 'destination-out';
         this.ctx.beginPath();
-        this.ctx.arc(e.clientX, e.clientY, this.currentSize * 2, 0, 2 * Math.PI);
+        this.ctx.arc(x, y, this.currentSize * 2, 0, 2 * Math.PI);
         this.ctx.fill();
     }
     
-    drawRectanglePreview(e) {
-        // Restaurar canvas principal
-        this.restoreCanvas();
+    drawRectanglePreview(x, y) {
+        // Restaurar el estado guardado antes del preview
+        this.restorePreviewState();
         
         // Dibujar preview del rectángulo
         this.ctx.globalCompositeOperation = 'source-over';
         this.ctx.strokeStyle = this.currentColor;
         this.ctx.lineWidth = this.currentSize;
         
-        const width = e.clientX - this.startX;
-        const height = e.clientY - this.startY;
+        const width = x - this.startX;
+        const height = y - this.startY;
         
         this.ctx.beginPath();
         this.ctx.strokeRect(this.startX, this.startY, width, height);
     }
     
-    drawCirclePreview(e) {
-        // Restaurar canvas principal
-        this.restoreCanvas();
+    drawCirclePreview(x, y) {
+        // Restaurar el estado guardado antes del preview
+        this.restorePreviewState();
         
         // Calcular radio para círculo perfecto
-        const deltaX = e.clientX - this.startX;
-        const deltaY = e.clientY - this.startY;
+        const deltaX = x - this.startX;
+        const deltaY = y - this.startY;
         const radius = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
         
         // Dibujar preview del círculo
@@ -198,6 +212,9 @@ class DrawingApp {
         if (this.isDrawing) {
             this.isDrawing = false;
             
+            // Limpiar el estado del preview
+            this.previewState = null;
+            
             // Para herramientas que modifican el canvas, guardar el estado
             if (this.currentTool === 'pen' || this.currentTool === 'eraser' || 
                 this.currentTool === 'rectangle' || this.currentTool === 'circle') {
@@ -210,6 +227,18 @@ class DrawingApp {
         if (this.history.length > 0 && this.historyStep >= 0) {
             const imageData = this.history[this.historyStep];
             this.ctx.putImageData(imageData, 0, 0);
+        }
+    }
+    
+    savePreviewState() {
+        // Guardar el estado actual del canvas para restaurar durante el preview
+        this.previewState = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    }
+    
+    restorePreviewState() {
+        // Restaurar el estado guardado antes del preview
+        if (this.previewState) {
+            this.ctx.putImageData(this.previewState, 0, 0);
         }
     }
     
@@ -243,8 +272,23 @@ class DrawingApp {
     }
     
     clearCanvas() {
+        // Limpiar el canvas principal
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // Limpiar también el estado de preview si existe
+        this.previewState = null;
+        
+        // Limpiar el canvas temporal
+        this.tempCtx.clearRect(0, 0, this.tempCanvas.width, this.tempCanvas.height);
+        
+        // Resetear el historial completamente
+        this.history = [];
+        this.historyStep = -1;
+        
+        // Guardar el estado limpio como punto inicial
         this.saveState();
+        
+        console.log('🧹 Canvas completamente limpio - Historial reseteado');
     }
 }
 
