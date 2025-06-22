@@ -1,6 +1,24 @@
 # 🎨 Yonier Color Presenter
 
-¡Hola! 👋 ¿Necesitas dibujar sobre tu pantalla durante una presentación? ¡Esta app es perfecta para ti! 
+¡Hola! 👋 ¿Necesitas dibujar sobre tu## 🎉 ¡Novedades v1.3.0!
+
+### ✋ **¡Nueva Herramienta de Mano!**
+Ahora puedes **arrastrar y mover** tu dibujo completo por la pantalla:
+- 🖱️ **Drag & Drop en tiempo real** - Arrastra tu dibujo completo libremente
+- 👆 **Feedback visual** - El cursor cambia a una "mano" cuando estás moviendo
+- ⎋ **Cancelación fácil** - Presiona Escape para cancelar el movimiento
+- 🔄 **Integrado con deshacer/rehacer** - Los movimientos se pueden deshacer
+
+### 🎨 **¡Paleta de colores expandida!**
+Ahora tienes **16 colores diferentes** con atajos rápidos:
+- 6 colores básicos (rojo, verde, azul, amarillo, blanco, negro)
+- 10 colores adicionales (naranja, púrpura, rosa, magenta, cian, lima, marrón, y 3 tonos de gris)
+
+### ⌨️ **Atajos súper intuitivos (seguros para macOS):**
+- Herramientas: `Cmd + Alt + letra` (P=lápiz, R=rectángulo, M=mover, etc.)
+- Colores básicos: `Option + número` (1-6) ← ¡Ya no conflicta con capturas!
+- Colores adicionales: `Option + número` (7-0) y `Cmd + Alt + número` (1-6)
+- ¡Perfecto para cambios rápidos durante presentaciones sin interferir con el sistema!rante una presentación? ¡Esta app es perfecta para ti! 
 
 **Yonier Color Presenter** es una aplicación súper fácil de usar para macOS que te permite dibujar, anotar y resaltar cualquier cosa en tu pantalla. Perfecta para profesores, presentadores o cualquiera que quiera hacer sus explicaciones más visuales. 📚✨
 
@@ -12,6 +30,7 @@
 📐 **Crear rectángulos perfectos** para resaltar información  
 ⭕ **Dibujar círculos** para señalar detalles importantes  
 🧹 **Borrar** lo que ya no necesites  
+✋ **Mover y arrastrar** tu dibujo completo por la pantalla (herramienta de mano)  
 🎨 **16 colores diferentes** con atajos rápidos (rojo, verde, azul, naranja, púrpura, rosa, y más)  
 📏 **Ajustar el grosor** del trazo  
 ⏪ **Deshacer** tu último trazo  
@@ -28,7 +47,7 @@ Todo desde un pequeño icono en tu barra de menú - ¡súper discreto! 🤫
 
 **¿Solo quieres usar la app sin complicaciones?** 
 
-👉 **[Descargar Yonier Color Presenter v1.0 (.dmg)](https://github.com/YonierGomez/app-color/releases/download/v1.0.0/Yonier-Color-Presenter-v1.0.0-macOS.dmg)**
+👉 **[Descargar Yonier Color Presenter v1.3.0 (.dmg)](https://github.com/YonierGomez/app-color/releases/download/v1.3.0/Yonier-Color-Presenter-v1.3.0-macOS.dmg)**
 
 1. 📥 Haz clic en el enlace de arriba
 2. 📂 Abre el archivo .dmg descargado  
@@ -100,6 +119,7 @@ Es súper simple:
 - **Rectángulo:** `Cmd+Alt+R` 📐
 - **Círculo:** `Cmd+Alt+C` ⭕
 - **Borrador:** `Cmd+Alt+E` 🧹
+- **Mover (Mano):** `Cmd+Alt+M` ✋
 
 #### 🎨 Colores básicos:
 - **Rojo:** `Option+1` ❤️
@@ -148,7 +168,7 @@ Es súper simple:
 
 2. **Edita lo que quieras:**
    - 🎮 **Controles básicos** (activar/limpiar/resetear)
-   - 🛠️ **Herramientas** (lápiz/rectángulo/círculo/borrador)
+   - 🛠️ **Herramientas** (lápiz/rectángulo/círculo/borrador/mover)
    - 🎨 **Todos los colores** (básicos y adicionales)
 
 3. **Guarda y listo!**
