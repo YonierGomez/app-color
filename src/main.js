@@ -10,15 +10,15 @@ let currentTool = 'rectangle';
 let currentColor = '#ff0000';
 let currentSize = 3;
 
-// Colores disponibles
-const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff', '#000000'];
+// Colores disponibles para el ciclo automático
+const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff', '#000000', '#ff8000', '#8000ff', '#ff0080', '#808080'];
 let colorIndex = 0;
 
 // Tamaños disponibles
 const sizes = [2, 3, 5, 8, 12];
 let sizeIndex = 1;
 
-// Colores básicos predefinidos
+// Colores básicos predefinidos expandidos
 const basicColors = {
   red: '#ff0000',
   green: '#00ff00', 
@@ -27,7 +27,15 @@ const basicColors = {
   magenta: '#ff00ff',
   cyan: '#00ffff',
   white: '#ffffff',
-  black: '#000000'
+  black: '#000000',
+  orange: '#ff8000',
+  purple: '#8000ff',
+  pink: '#ff0080',
+  gray: '#808080',
+  lightGray: '#c0c0c0',
+  darkGray: '#404040',
+  brown: '#804000',
+  lime: '#80ff00'
 };
 
 function createOverlayWindow() {
@@ -112,7 +120,7 @@ function changeColor() {
   }
   
   // Mostrar notificación del color actual
-  const colorNames = ['Rojo', 'Verde', 'Azul', 'Amarillo', 'Magenta', 'Cian', 'Blanco', 'Negro'];
+  const colorNames = ['Rojo', 'Verde', 'Azul', 'Amarillo', 'Magenta', 'Cian', 'Blanco', 'Negro', 'Naranja', 'Púrpura', 'Rosa', 'Gris'];
   console.log(`Color: ${colorNames[colorIndex]} (${currentColor})`);
 }
 
@@ -243,6 +251,96 @@ function setBlackColor() {
   console.log('Color establecido: Negro');
 }
 
+function setOrangeColor() {
+  currentColor = basicColors.orange;
+  colorIndex = colors.indexOf(currentColor) >= 0 ? colors.indexOf(currentColor) : 0;
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Naranja');
+}
+
+function setPurpleColor() {
+  currentColor = basicColors.purple;
+  colorIndex = colors.indexOf(currentColor) >= 0 ? colors.indexOf(currentColor) : 0;
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Púrpura');
+}
+
+function setPinkColor() {
+  currentColor = basicColors.pink;
+  colorIndex = colors.indexOf(currentColor) >= 0 ? colors.indexOf(currentColor) : 0;
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Rosa');
+}
+
+function setGrayColor() {
+  currentColor = basicColors.gray;
+  colorIndex = colors.indexOf(currentColor) >= 0 ? colors.indexOf(currentColor) : 0;
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Gris');
+}
+
+function setLightGrayColor() {
+  currentColor = basicColors.lightGray;
+  colorIndex = colors.indexOf(currentColor) >= 0 ? colors.indexOf(currentColor) : 0;
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Gris Claro');
+}
+
+function setDarkGrayColor() {
+  currentColor = basicColors.darkGray;
+  colorIndex = colors.indexOf(currentColor) >= 0 ? colors.indexOf(currentColor) : 0;
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Gris Oscuro');
+}
+
+function setBrownColor() {
+  currentColor = basicColors.brown;
+  colorIndex = colors.indexOf(currentColor) >= 0 ? colors.indexOf(currentColor) : 0;
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Marrón');
+}
+
+function setLimeColor() {
+  currentColor = basicColors.lime;
+  colorIndex = colors.indexOf(currentColor) >= 0 ? colors.indexOf(currentColor) : 0;
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Lima');
+}
+
+function setMagentaColor() {
+  currentColor = basicColors.magenta;
+  colorIndex = colors.indexOf(currentColor);
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Magenta');
+}
+
+function setCyanColor() {
+  currentColor = basicColors.cyan;
+  colorIndex = colors.indexOf(currentColor);
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Cian');
+}
+
 // Función para crear el icono del tray
 function createTray() {
   let icon;
@@ -280,6 +378,26 @@ function createTray() {
       { label: 'Círculo (Cmd+Shift+3)', click: drawCircle },
       { label: 'Borrador (Cmd+Shift+4)', click: drawEraser }
     ]},
+    { label: 'Colores Básicos', submenu: [
+      { label: 'Rojo (Cmd+R)', click: setRedColor },
+      { label: 'Verde (Cmd+G)', click: setGreenColor },
+      { label: 'Azul (Cmd+B)', click: setBlueColor },
+      { label: 'Amarillo (Cmd+Y)', click: setYellowColor },
+      { label: 'Blanco (Cmd+Shift+A)', click: setWhiteColor },
+      { label: 'Negro (Cmd+Shift+S)', click: setBlackColor }
+    ]},
+    { label: 'Colores Adicionales', submenu: [
+      { label: 'Naranja (Cmd+O)', click: setOrangeColor },
+      { label: 'Púrpura (Cmd+P)', click: setPurpleColor },
+      { label: 'Rosa (Cmd+K)', click: setPinkColor },
+      { label: 'Magenta (Cmd+M)', click: setMagentaColor },
+      { label: 'Cian (Cmd+C)', click: setCyanColor },
+      { label: 'Lima (Cmd+L)', click: setLimeColor },
+      { label: 'Marrón (Cmd+Shift+B)', click: setBrownColor },
+      { label: 'Gris (Cmd+Shift+G)', click: setGrayColor },
+      { label: 'Gris Claro (Cmd+Shift+L)', click: setLightGrayColor },
+      { label: 'Gris Oscuro (Cmd+Shift+K)', click: setDarkGrayColor }
+    ]},
     { type: 'separator' },
     { label: 'Cambiar Color (Cmd+Shift+Q)', click: changeColor },
     { label: 'Cambiar Tamaño (Cmd+Shift+W)', click: changeSize },
@@ -307,13 +425,25 @@ function registerShortcuts() {
   globalShortcut.register('CommandOrControl+Shift+W', changeSize);
   globalShortcut.register('CommandOrControl+Z', undoLastAction);
   
-  // Registrar nuevos atajos para colores básicos
+  // Registrar atajos para colores básicos
   globalShortcut.register('CommandOrControl+R', setRedColor);
   globalShortcut.register('CommandOrControl+G', setGreenColor);
   globalShortcut.register('CommandOrControl+B', setBlueColor);
   globalShortcut.register('CommandOrControl+Y', setYellowColor);
   globalShortcut.register('CommandOrControl+Shift+A', setWhiteColor);
   globalShortcut.register('CommandOrControl+Shift+S', setBlackColor);
+  
+  // Registrar atajos para colores adicionales
+  globalShortcut.register('CommandOrControl+O', setOrangeColor);
+  globalShortcut.register('CommandOrControl+P', setPurpleColor);
+  globalShortcut.register('CommandOrControl+K', setPinkColor);
+  globalShortcut.register('CommandOrControl+M', setMagentaColor);
+  globalShortcut.register('CommandOrControl+C', setCyanColor);
+  globalShortcut.register('CommandOrControl+L', setLimeColor);
+  globalShortcut.register('CommandOrControl+Shift+B', setBrownColor);
+  globalShortcut.register('CommandOrControl+Shift+G', setGrayColor);
+  globalShortcut.register('CommandOrControl+Shift+L', setLightGrayColor);
+  globalShortcut.register('CommandOrControl+Shift+K', setDarkGrayColor);
   
   globalShortcut.register('Escape', () => {
     if (isDrawingMode) {
@@ -338,6 +468,17 @@ function registerShortcuts() {
   console.log('Cmd+Y - Amarillo');
   console.log('Cmd+Shift+A - Blanco');
   console.log('Cmd+Shift+S - Negro');
+  console.log('=== COLORES ADICIONALES ===');
+  console.log('Cmd+O - Naranja');
+  console.log('Cmd+P - Púrpura');
+  console.log('Cmd+K - Rosa');
+  console.log('Cmd+M - Magenta');
+  console.log('Cmd+C - Cian');
+  console.log('Cmd+L - Lima');
+  console.log('Cmd+Shift+B - Marrón');
+  console.log('Cmd+Shift+G - Gris');
+  console.log('Cmd+Shift+L - Gris Claro');
+  console.log('Cmd+Shift+K - Gris Oscuro');
   console.log('=== OTROS ===');
   console.log('Cmd+Shift+Q - Cambiar color');
   console.log('Cmd+Shift+W - Cambiar tamaño');
@@ -378,14 +519,34 @@ app.whenReady().then(() => {
         { label: 'Cambiar Color (Cmd+Shift+Q)', accelerator: 'CmdOrCtrl+Shift+Q', click: changeColor },
         { label: 'Cambiar Tamaño (Cmd+Shift+W)', accelerator: 'CmdOrCtrl+Shift+W', click: changeSize },
         { type: 'separator' },
-        { label: 'Deshacer (Cmd+Z)', accelerator: 'CmdOrCtrl+Z', click: undoLastAction },
-        { type: 'separator' },
+        { label: 'Deshacer (Cmd+Z)', accelerator: 'CmdOrCtrl+Z', click: undoLastAction }
+      ]
+    },
+    {
+      label: 'Colores Básicos',
+      submenu: [
         { label: 'Rojo (Cmd+R)', accelerator: 'CmdOrCtrl+R', click: setRedColor },
         { label: 'Verde (Cmd+G)', accelerator: 'CmdOrCtrl+G', click: setGreenColor },
         { label: 'Azul (Cmd+B)', accelerator: 'CmdOrCtrl+B', click: setBlueColor },
         { label: 'Amarillo (Cmd+Y)', accelerator: 'CmdOrCtrl+Y', click: setYellowColor },
         { label: 'Blanco (Cmd+Shift+A)', accelerator: 'CmdOrCtrl+Shift+A', click: setWhiteColor },
         { label: 'Negro (Cmd+Shift+S)', accelerator: 'CmdOrCtrl+Shift+S', click: setBlackColor }
+      ]
+    },
+    {
+      label: 'Colores Adicionales',
+      submenu: [
+        { label: 'Naranja (Cmd+O)', accelerator: 'CmdOrCtrl+O', click: setOrangeColor },
+        { label: 'Púrpura (Cmd+P)', accelerator: 'CmdOrCtrl+P', click: setPurpleColor },
+        { label: 'Rosa (Cmd+K)', accelerator: 'CmdOrCtrl+K', click: setPinkColor },
+        { label: 'Magenta (Cmd+M)', accelerator: 'CmdOrCtrl+M', click: setMagentaColor },
+        { label: 'Cian (Cmd+C)', accelerator: 'CmdOrCtrl+C', click: setCyanColor },
+        { label: 'Lima (Cmd+L)', accelerator: 'CmdOrCtrl+L', click: setLimeColor },
+        { type: 'separator' },
+        { label: 'Marrón (Cmd+Shift+B)', accelerator: 'CmdOrCtrl+Shift+B', click: setBrownColor },
+        { label: 'Gris (Cmd+Shift+G)', accelerator: 'CmdOrCtrl+Shift+G', click: setGrayColor },
+        { label: 'Gris Claro (Cmd+Shift+L)', accelerator: 'CmdOrCtrl+Shift+L', click: setLightGrayColor },
+        { label: 'Gris Oscuro (Cmd+Shift+K)', accelerator: 'CmdOrCtrl+Shift+K', click: setDarkGrayColor }
       ]
     }
   ];

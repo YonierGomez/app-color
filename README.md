@@ -12,7 +12,7 @@
 📐 **Crear rectángulos perfectos** para resaltar información  
 ⭕ **Dibujar círculos** para señalar detalles importantes  
 🧹 **Borrar** lo que ya no necesites  
-🎨 **Cambiar colores** fácilmente (rojo, verde, azul, amarillo, y más)  
+🎨 **16 colores diferentes** con atajos rápidos (rojo, verde, azul, naranja, púrpura, rosa, y más)  
 📏 **Ajustar el grosor** del trazo  
 ⏪ **Deshacer** tu último trazo  
 🗑️ **Limpiar todo** de una vez  
@@ -62,7 +62,21 @@ Todo desde un pequeño icono en tu barra de menú - ¡súper discreto! 🤫
 
 ---
 
-## 🎯 ¿Cómo se usa?
+## � ¡Novedades v1.1.0!
+
+### 🎨 **¡Paleta de colores expandida!**
+Ahora tienes **16 colores diferentes** con atajos rápidos:
+- 6 colores básicos (rojo, verde, azul, amarillo, blanco, negro)
+- 10 colores adicionales (naranja, púrpura, rosa, magenta, cian, lima, marrón, y 3 tonos de gris)
+
+### ⌨️ **Atajos súper intuitivos:**
+- Colores básicos: `Cmd + letra` (R, G, B, Y, etc.)
+- Colores adicionales: `Cmd + letra` o `Cmd+Shift + letra`
+- ¡Perfecto para cambios rápidos durante presentaciones!
+
+---
+
+## �🎯 ¿Cómo se usa?
 
 Es súper simple:
 
@@ -85,13 +99,25 @@ Es súper simple:
 - **Círculo:** `Cmd+Shift+3` ⭕
 - **Borrador:** `Cmd+Shift+4` 🧹
 
-#### 🎨 Colores rápidos:
+#### 🎨 Colores básicos:
 - **Rojo:** `Cmd+R` ❤️
 - **Verde:** `Cmd+G` 💚
 - **Azul:** `Cmd+B` 💙
 - **Amarillo:** `Cmd+Y` 💛
 - **Blanco:** `Cmd+Shift+A` 🤍
 - **Negro:** `Cmd+Shift+S` 🖤
+
+#### 🌈 Colores adicionales:
+- **Naranja:** `Cmd+O` 🧡
+- **Púrpura:** `Cmd+P` 💜
+- **Rosa:** `Cmd+K` 🩷
+- **Magenta:** `Cmd+M` 🩵
+- **Cian:** `Cmd+C` 💎
+- **Lima:** `Cmd+L` 💚
+- **Marrón:** `Cmd+Shift+B` 🤎
+- **Gris:** `Cmd+Shift+G` 🩶
+- **Gris Claro:** `Cmd+Shift+L` ⬜
+- **Gris Oscuro:** `Cmd+Shift+K` ⬛
 
 #### ⚙️ Extras:
 - **Cambiar colores:** `Cmd+Shift+Q` 🌈

@@ -1,6 +1,6 @@
 {
   "name": "yonier-color-presenter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Yonier Color Presenter - Drawing and annotation app for Mac presentations",
   "main": "src/main.js",
   "scripts": {
