@@ -1,16 +1,24 @@
 # 🎨 Yonier Color Presenter
 
-¡Hola! 👋 ¿Necesitas dibujar sobre tu## 🎉 ¡Novedades v1.3.0!
+¡Hola! 👋 ¿Necesitas dibujar sobre tu pantalla durante una presentación? ¡Esta app es perfecta para ti! 
 
-### 🎨 **¡Nueva Herramienta de Recolorear!**
-¡Ahora puedes cambiar colores de áreas completas como un **balde de pintura**!
-- 🪣 **Flood Fill inteligente** - Cambia todos los píxeles del mismo color conectados
-- 🎯 **Un solo clic** - Selecciona el área y ¡listo!
-- 🌈 **Preserva bordes** - Solo cambia el área seleccionada, respeta los límites
-- ⚡ **Súper rápido** - Perfecto para corregir colores o crear variaciones
+**Yonier Color Presenter** es una aplicación súper fácil de usar para macOS que te permite dibujar, anotar y resaltar cualquier cosa en tu pantalla. Perfecta para profesores, presentadores o cualquiera que quiera hacer sus explicaciones más visuales. 📚✨
 
-### ✋ **¡Nueva Herramienta de Mano!**
-Ahora puedes **arrastrar y mover** tu dibujo completo por la pantalla:
+---
+
+## 🎉 ¡Novedades v1.3.1!
+
+### 🪣 **¡Nueva Herramienta de Recolorear (Balde de Pintura)!**
+¡La funcionalidad más solicitada por los usuarios ya está aquí!
+- 🪣 **Flood Fill inteligente** - Cambia todos los píxeles del mismo color conectados con un solo clic
+- 🎯 **Un solo clic** - Selecciona el área y ¡automáticamente cambia todo el color conectado!
+- 🌈 **Preserva bordes** - Solo cambia el área seleccionada, respeta los límites de otras formas
+- ⚡ **Súper rápido** - Perfecto para corregir colores o crear variaciones durante presentaciones
+- 🔄 **Integrado con deshacer** - Los cambios se pueden deshacer con `Cmd+Z`
+- ⌨️ **Atajo rápido** - Activa con `Cmd+Alt+B` (B de "Balde")
+
+### ✋ **¡Herramienta de Mano mejorada!**
+Arrastra y mueve tu dibujo completo por la pantalla:
 - 🖱️ **Drag & Drop en tiempo real** - Arrastra tu dibujo completo libremente
 - 👆 **Feedback visual** - El cursor cambia a una "mano" cuando estás moviendo
 - ⎋ **Cancelación fácil** - Presiona Escape para cancelar el movimiento
@@ -27,26 +35,7 @@ Ahora tienes **16 colores diferentes** con atajos rápidos:
 - Colores básicos: `Option + número` (1-6) ← ¡Ya no conflicta con capturas!
 - Colores adicionales: `Option + número` (7-0) y `Cmd + Alt + número` (1-6)
 - Colores con letras: `Option + letra` (R=rojo, G=verde, B=azul, etc.)
-- ¡Perfecto para cambios rápidos durante presentaciones sin interferir con el sistema!rante una presentación? ¡Esta app es perfecta para ti! 
-
-**Yonier Color Presenter** es una aplicación súper fácil de usar para macOS que te permite dibujar, anotar y resaltar cualquier cosa en tu pantalla. Perfecta para profesores, presentadores o cualquiera que quiera hacer sus explicaciones más visuales. 📚✨
-
----
-
-## ✨ ¿Qué puedes hacer?
-
-🖊️ **Dibujar libremente** con un lápiz digital  
-📐 **Crear rectángulos perfectos** para resaltar información  
-⭕ **Dibujar círculos** para señalar detalles importantes  
-🧹 **Borrar** lo que ya no necesites  
-✋ **Mover y arrastrar** tu dibujo completo por la pantalla (herramienta de mano)  
-🪣 **Recolorear áreas completas** como un balde de pintura (flood fill)  
-🎨 **16 colores diferentes** con atajos rápidos (rojo, verde, azul, naranja, púrpura, rosa, y más)  
-🔤 **Atajos con letras** para colores (`Option+R`, `Option+G`, `Option+B`, etc.)  
-📏 **Ajustar el grosor** del trazo  
-⏪ **Deshacer** tu último trazo  
-🗑️ **Limpiar todo** de una vez  
-⚙️ **Sistema de configuración personalizable** - ¡Cambia todos los atajos a tu gusto!  
+- ¡Perfecto para cambios rápidos durante presentaciones sin interferir con el sistema!  
 
 Todo desde un pequeño icono en tu barra de menú - ¡súper discreto! 🤫
 
@@ -58,7 +47,7 @@ Todo desde un pequeño icono en tu barra de menú - ¡súper discreto! 🤫
 
 **¿Solo quieres usar la app sin complicaciones?** 
 
-👉 **[Descargar Yonier Color Presenter v1.3.0 (.dmg)](https://github.com/YonierGomez/app-color/releases/download/v1.3.0/Yonier-Color-Presenter-v1.3.0-macOS.dmg)**
+👉 **[Descargar Yonier Color Presenter v1.3.1 (.dmg)](https://github.com/YonierGomez/app-color/releases/download/v1.3.1/Yonier-Color-Presenter-v1.3.1-macOS.dmg)**
 
 1. 📥 Haz clic en el enlace de arriba
 2. 📂 Abre el archivo .dmg descargado  
@@ -93,22 +82,7 @@ Todo desde un pequeño icono en tu barra de menú - ¡súper discreto! 🤫
 
 ---
 
-## � ¡Novedades v1.1.0!
-
-### 🎨 **¡Paleta de colores expandida!**
-Ahora tienes **16 colores diferentes** con atajos rápidos:
-- 6 colores básicos (rojo, verde, azul, amarillo, blanco, negro)
-- 10 colores adicionales (naranja, púrpura, rosa, magenta, cian, lima, marrón, y 3 tonos de gris)
-
-### ⌨️ **Atajos súper intuitivos (seguros para macOS):**
-- Herramientas: `Cmd + Alt + letra` (P=lápiz, R=rectángulo, etc.)
-- Colores básicos: `Option + número` (1-6) ← ¡Ya no conflicta con capturas!
-- Colores adicionales: `Option + número` (7-0) y `Cmd + Alt + número` (1-6)
-- ¡Perfecto para cambios rápidos durante presentaciones sin interferir con el sistema!
-
----
-
-## �🎯 ¿Cómo se usa?
+## 🎯 ¿Cómo se usa?
 
 Es súper simple:
 
