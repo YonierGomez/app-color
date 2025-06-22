@@ -1,0 +1,77 @@
+{
+  "version": "1.0",
+  "shortcuts": {
+    "control": {
+      "toggleDrawingMode": "CommandOrControl+Shift+D",
+      "clearDrawing": "CommandOrControl+Shift+C",
+      "resetAll": "CommandOrControl+Shift+R",
+      "undoLastAction": "CommandOrControl+Z",
+      "exitDrawingMode": "Escape"
+    },
+    "tools": {
+      "drawPen": "CommandOrControl+Shift+1",
+      "drawRectangle": "CommandOrControl+Shift+2",
+      "drawCircle": "CommandOrControl+Shift+3",
+      "drawEraser": "CommandOrControl+Shift+4",
+      "changeColor": "CommandOrControl+Shift+Q",
+      "changeSize": "CommandOrControl+Shift+W"
+    },
+    "basicColors": {
+      "setRedColor": "CommandOrControl+R",
+      "setGreenColor": "CommandOrControl+G",
+      "setBlueColor": "CommandOrControl+B",
+      "setYellowColor": "CommandOrControl+Y",
+      "setWhiteColor": "CommandOrControl+Shift+A",
+      "setBlackColor": "CommandOrControl+Shift+S"
+    },
+    "additionalColors": {
+      "setOrangeColor": "CommandOrControl+O",
+      "setPurpleColor": "CommandOrControl+P",
+      "setPinkColor": "CommandOrControl+K",
+      "setMagentaColor": "CommandOrControl+M",
+      "setCyanColor": "CommandOrControl+C",
+      "setLimeColor": "CommandOrControl+L",
+      "setBrownColor": "CommandOrControl+Shift+B",
+      "setGrayColor": "CommandOrControl+Shift+G",
+      "setLightGrayColor": "CommandOrControl+Shift+L",
+      "setDarkGrayColor": "CommandOrControl+Shift+K"
+    }
+  },
+  "descriptions": {
+    "control": {
+      "toggleDrawingMode": "Activar/Desactivar Dibujo",
+      "clearDrawing": "Limpiar Dibujo",
+      "resetAll": "Resetear Todo",
+      "undoLastAction": "Deshacer",
+      "exitDrawingMode": "Salir del Modo Dibujo"
+    },
+    "tools": {
+      "drawPen": "Lápiz",
+      "drawRectangle": "Rectángulo",
+      "drawCircle": "Círculo",
+      "drawEraser": "Borrador",
+      "changeColor": "Cambiar Color",
+      "changeSize": "Cambiar Tamaño"
+    },
+    "basicColors": {
+      "setRedColor": "Rojo",
+      "setGreenColor": "Verde",
+      "setBlueColor": "Azul",
+      "setYellowColor": "Amarillo",
+      "setWhiteColor": "Blanco",
+      "setBlackColor": "Negro"
+    },
+    "additionalColors": {
+      "setOrangeColor": "Naranja",
+      "setPurpleColor": "Púrpura",
+      "setPinkColor": "Rosa",
+      "setMagentaColor": "Magenta",
+      "setCyanColor": "Cian",
+      "setLimeColor": "Lima",
+      "setBrownColor": "Marrón",
+      "setGrayColor": "Gris",
+      "setLightGrayColor": "Gris Claro",
+      "setDarkGrayColor": "Gris Oscuro"
+    }
+  }
+}

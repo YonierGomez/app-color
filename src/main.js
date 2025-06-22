@@ -1,9 +1,12 @@
-const { app, BrowserWindow, globalShortcut, Menu, screen, Tray, nativeImage } = require('electron');
+const { app, BrowserWindow, globalShortcut, Menu, screen, Tray, nativeImage, ipcMain } = require('electron');
 const path = require('path');
+const ShortcutConfig = require('./shortcut-config');
 
 let overlayWindow;
+let configWindow;
 let tray = null;
 let isDrawingMode = false;
+let shortcutConfig;
 
 // Estados iniciales (se resetean al desactivar dibujo)
 let currentTool = 'rectangle';
@@ -341,6 +344,38 @@ function setCyanColor() {
   console.log('Color establecido: Cian');
 }
 
+// Función para abrir la ventana de configuración de atajos
+function openShortcutsConfig() {
+  if (configWindow && !configWindow.isDestroyed()) {
+    configWindow.focus();
+    return;
+  }
+
+  configWindow = new BrowserWindow({
+    width: 900,
+    height: 700,
+    minWidth: 600,
+    minHeight: 500,
+    title: 'Configuración de Atajos - Yonier Color Presenter',
+    icon: path.join(__dirname, '..', 'assets', 'tray-template.png'),
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    },
+    show: false
+  });
+
+  configWindow.loadFile('src/shortcuts-config.html');
+  
+  configWindow.once('ready-to-show', () => {
+    configWindow.show();
+  });
+
+  configWindow.on('closed', () => {
+    configWindow = null;
+  });
+}
+
 // Función para crear el icono del tray
 function createTray() {
   let icon;
@@ -406,6 +441,8 @@ function createTray() {
     { label: 'Deshacer (Cmd+Z)', click: undoLastAction },
     { label: 'Resetear Todo (Cmd+Shift+R)', click: resetAll },
     { type: 'separator' },
+    { label: '⚙️ Configurar Atajos', click: openShortcutsConfig },
+    { type: 'separator' },
     { label: 'Salir', click: () => app.quit() }
   ]);
   tray.setToolTip('Yonier Color Presenter');
@@ -413,86 +450,137 @@ function createTray() {
 }
 
 function registerShortcuts() {
-  // Registrar atajos globales existentes
-  globalShortcut.register('CommandOrControl+Shift+D', toggleDrawingMode);
-  globalShortcut.register('CommandOrControl+Shift+C', clearDrawing);
-  globalShortcut.register('CommandOrControl+Shift+R', resetAll);
-  globalShortcut.register('CommandOrControl+Shift+1', drawPen);
-  globalShortcut.register('CommandOrControl+Shift+2', drawRectangle);
-  globalShortcut.register('CommandOrControl+Shift+3', drawCircle);
-  globalShortcut.register('CommandOrControl+Shift+4', drawEraser);
-  globalShortcut.register('CommandOrControl+Shift+Q', changeColor);
-  globalShortcut.register('CommandOrControl+Shift+W', changeSize);
-  globalShortcut.register('CommandOrControl+Z', undoLastAction);
-  
-  // Registrar atajos para colores básicos
-  globalShortcut.register('CommandOrControl+R', setRedColor);
-  globalShortcut.register('CommandOrControl+G', setGreenColor);
-  globalShortcut.register('CommandOrControl+B', setBlueColor);
-  globalShortcut.register('CommandOrControl+Y', setYellowColor);
-  globalShortcut.register('CommandOrControl+Shift+A', setWhiteColor);
-  globalShortcut.register('CommandOrControl+Shift+S', setBlackColor);
-  
-  // Registrar atajos para colores adicionales
-  globalShortcut.register('CommandOrControl+O', setOrangeColor);
-  globalShortcut.register('CommandOrControl+P', setPurpleColor);
-  globalShortcut.register('CommandOrControl+K', setPinkColor);
-  globalShortcut.register('CommandOrControl+M', setMagentaColor);
-  globalShortcut.register('CommandOrControl+C', setCyanColor);
-  globalShortcut.register('CommandOrControl+L', setLimeColor);
-  globalShortcut.register('CommandOrControl+Shift+B', setBrownColor);
-  globalShortcut.register('CommandOrControl+Shift+G', setGrayColor);
-  globalShortcut.register('CommandOrControl+Shift+L', setLightGrayColor);
-  globalShortcut.register('CommandOrControl+Shift+K', setDarkGrayColor);
-  
-  globalShortcut.register('Escape', () => {
-    if (isDrawingMode) {
-      toggleDrawingMode();
+  // Desregistrar atajos existentes
+  globalShortcut.unregisterAll();
+
+  // Crear mapa de funciones
+  const functionMap = {
+    control: {
+      toggleDrawingMode: toggleDrawingMode,
+      clearDrawing: clearDrawing,
+      resetAll: resetAll,
+      undoLastAction: undoLastAction,
+      exitDrawingMode: () => {
+        if (isDrawingMode) {
+          toggleDrawingMode();
+        }
+      }
+    },
+    tools: {
+      drawPen: drawPen,
+      drawRectangle: drawRectangle,
+      drawCircle: drawCircle,
+      drawEraser: drawEraser,
+      changeColor: changeColor,
+      changeSize: changeSize
+    },
+    basicColors: {
+      setRedColor: setRedColor,
+      setGreenColor: setGreenColor,
+      setBlueColor: setBlueColor,
+      setYellowColor: setYellowColor,
+      setWhiteColor: setWhiteColor,
+      setBlackColor: setBlackColor
+    },
+    additionalColors: {
+      setOrangeColor: setOrangeColor,
+      setPurpleColor: setPurpleColor,
+      setPinkColor: setPinkColor,
+      setMagentaColor: setMagentaColor,
+      setCyanColor: setCyanColor,
+      setLimeColor: setLimeColor,
+      setBrownColor: setBrownColor,
+      setGrayColor: setGrayColor,
+      setLightGrayColor: setLightGrayColor,
+      setDarkGrayColor: setDarkGrayColor
     }
+  };
+
+  // Registrar atajos dinámicamente desde la configuración
+  const shortcuts = shortcutConfig.getAllShortcuts();
+  let registeredCount = 0;
+
+  Object.entries(shortcuts).forEach(([category, actions]) => {
+    Object.entries(actions).forEach(([action, shortcut]) => {
+      try {
+        const func = functionMap[category]?.[action];
+        if (func && shortcut) {
+          const success = globalShortcut.register(shortcut, func);
+          if (success) {
+            registeredCount++;
+          } else {
+            console.warn(`⚠️ No se pudo registrar atajo: ${shortcut} para ${category}.${action}`);
+          }
+        }
+      } catch (error) {
+        console.error(`❌ Error registrando atajo ${shortcut}:`, error.message);
+      }
+    });
   });
 
-  console.log('Atajos registrados:');
-  console.log('=== CONTROL ===');
-  console.log('Cmd+Shift+D - Activar/Desactivar dibujo');
-  console.log('Cmd+Shift+C - Limpiar pantalla');
-  console.log('Cmd+Shift+R - Resetear todo');
-  console.log('=== HERRAMIENTAS ===');
-  console.log('Cmd+Shift+1 - Lápiz');
-  console.log('Cmd+Shift+2 - Rectángulo perfecto');
-  console.log('Cmd+Shift+3 - Círculo perfecto');
-  console.log('Cmd+Shift+4 - Borrador');
-  console.log('=== COLORES BÁSICOS ===');
-  console.log('Cmd+R - Rojo');
-  console.log('Cmd+G - Verde');
-  console.log('Cmd+B - Azul');
-  console.log('Cmd+Y - Amarillo');
-  console.log('Cmd+Shift+A - Blanco');
-  console.log('Cmd+Shift+S - Negro');
-  console.log('=== COLORES ADICIONALES ===');
-  console.log('Cmd+O - Naranja');
-  console.log('Cmd+P - Púrpura');
-  console.log('Cmd+K - Rosa');
-  console.log('Cmd+M - Magenta');
-  console.log('Cmd+C - Cian');
-  console.log('Cmd+L - Lima');
-  console.log('Cmd+Shift+B - Marrón');
-  console.log('Cmd+Shift+G - Gris');
-  console.log('Cmd+Shift+L - Gris Claro');
-  console.log('Cmd+Shift+K - Gris Oscuro');
-  console.log('=== OTROS ===');
-  console.log('Cmd+Shift+Q - Cambiar color');
-  console.log('Cmd+Shift+W - Cambiar tamaño');
-  console.log('Cmd+Z - Deshacer');
-  console.log('Esc - Salir del modo dibujo');
-  console.log('Tip: Haz clic derecho en el icono del menú para ver todos los atajos');
+  console.log(`✅ ${registeredCount} atajos registrados exitosamente`);
+  console.log('=== ATAJOS ACTIVOS ===');
+  
+  // Mostrar atajos registrados organizados por categoría
+  const categories = {
+    control: '🎮 CONTROL',
+    tools: '🛠️ HERRAMIENTAS',
+    basicColors: '🎨 COLORES BÁSICOS',
+    additionalColors: '🌈 COLORES ADICIONALES'
+  };
+
+  Object.entries(categories).forEach(([category, title]) => {
+    console.log(title);
+    const actions = shortcuts[category] || {};
+    Object.entries(actions).forEach(([action, shortcut]) => {
+      const description = shortcutConfig.getDescription(category, action);
+      console.log(`${shortcut} - ${description}`);
+    });
+    console.log('');
+  });
+
+  console.log('💡 Tip: Ve a "Configuración de Atajos" para personalizar todos los atajos');
 }
 
 app.whenReady().then(() => {
   console.log('Iniciando Yonier Color Presenter...');
 
+  // Inicializar configuración de atajos
+  shortcutConfig = new ShortcutConfig();
+
   createOverlayWindow();
   createTray();
   registerShortcuts();
+
+  // Registrar manejadores IPC para configuración de atajos
+  ipcMain.handle('get-shortcuts-config', () => {
+    return shortcutConfig.config;
+  });
+
+  ipcMain.handle('save-shortcuts-config', (event, newConfig) => {
+    shortcutConfig.config = newConfig;
+    const success = shortcutConfig.saveUserConfig();
+    if (success) {
+      // Re-registrar atajos con la nueva configuración
+      registerShortcuts();
+    }
+    return success;
+  });
+
+  ipcMain.handle('reset-shortcuts-to-default', () => {
+    const success = shortcutConfig.resetToDefault();
+    if (success) {
+      // Re-registrar atajos con la configuración por defecto
+      registerShortcuts();
+    }
+    return success;
+  });
+
+  ipcMain.handle('close-shortcuts-config', () => {
+    if (configWindow && !configWindow.isDestroyed()) {
+      configWindow.close();
+    }
+  });
 
   // Menú de aplicación con listado de atajos
   const template = [
@@ -500,6 +588,8 @@ app.whenReady().then(() => {
       label: 'Yonier Color Presenter',
       submenu: [
         { role: 'about' },
+        { type: 'separator' },
+        { label: '⚙️ Configurar Atajos', click: openShortcutsConfig },
         { type: 'separator' },
         { role: 'quit' }
       ]
@@ -519,7 +609,9 @@ app.whenReady().then(() => {
         { label: 'Cambiar Color (Cmd+Shift+Q)', accelerator: 'CmdOrCtrl+Shift+Q', click: changeColor },
         { label: 'Cambiar Tamaño (Cmd+Shift+W)', accelerator: 'CmdOrCtrl+Shift+W', click: changeSize },
         { type: 'separator' },
-        { label: 'Deshacer (Cmd+Z)', accelerator: 'CmdOrCtrl+Z', click: undoLastAction }
+        { label: 'Deshacer (Cmd+Z)', accelerator: 'CmdOrCtrl+Z', click: undoLastAction },
+        { type: 'separator' },
+        { label: '⚙️ Personalizar Todos los Atajos', click: openShortcutsConfig }
       ]
     },
     {

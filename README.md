@@ -16,6 +16,7 @@
 📏 **Ajustar el grosor** del trazo  
 ⏪ **Deshacer** tu último trazo  
 🗑️ **Limpiar todo** de una vez  
+⚙️ **Sistema de configuración personalizable** - ¡Cambia todos los atajos a tu gusto!  
 
 Todo desde un pequeño icono en tu barra de menú - ¡súper discreto! 🤫
 
@@ -123,6 +124,47 @@ Es súper simple:
 - **Cambiar colores:** `Cmd+Shift+Q` 🌈
 - **Cambiar grosor:** `Cmd+Shift+W` 📏
 - **Deshacer:** `Cmd+Z` ⏪
+
+---
+
+## ⚙️ ¡Configura Todo a Tu Gusto!
+
+**¿No te gustan estos atajos?** ¡No hay problema! Ahora puedes cambiar **TODOS** los atajos de teclado.
+
+### 🎮 Cómo Personalizar Atajos:
+
+1. **Abre la configuración:**
+   - Desde el **tray**: Clic derecho → "⚙️ Configurar Atajos"
+   - Desde el **menú**: "Yonier Color Presenter" → "⚙️ Configurar Atajos"
+
+2. **Edita lo que quieras:**
+   - 🎮 **Controles básicos** (activar/limpiar/resetear)
+   - 🛠️ **Herramientas** (lápiz/rectángulo/círculo/borrador)
+   - 🎨 **Todos los colores** (básicos y adicionales)
+
+3. **Guarda y listo!**
+   - Los cambios se aplican inmediatamente
+   - Sin necesidad de reiniciar la aplicación
+
+### 🔧 Funciones Avanzadas:
+
+- **📤 Exportar configuración** - Guarda tu setup personalizado
+- **📥 Importar configuración** - Carga configuraciones de otros dispositivos  
+- **🔄 Resetear a defecto** - Vuelve a los atajos originales
+- **✅ Validación en tiempo real** - Te dice si un atajo es válido
+
+### 📖 Ejemplos de Formato:
+```bash
+CommandOrControl+R          # Cmd+R (Mac) / Ctrl+R (Win/Linux)
+CommandOrControl+Shift+D    # Cmd+Shift+D
+Alt+F4                      # Alt+F4  
+Shift+Enter                 # Shift+Enter
+F12                         # Solo F12
+```
+
+**💡 Tip:** Puedes usar `CommandOrControl` para compatibilidad entre Mac y PC, o `Command`/`Control` para plataforma específica.
+
+👉 **[Ver guía completa de configuración](docs/CONFIGURACION_ATAJOS.md)**
 
 ---
 
