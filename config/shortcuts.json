@@ -9,32 +9,33 @@
       "exitDrawingMode": "Escape"
     },
     "tools": {
-      "drawPen": "CommandOrControl+Shift+1",
-      "drawRectangle": "CommandOrControl+Shift+2",
-      "drawCircle": "CommandOrControl+Shift+3",
-      "drawEraser": "CommandOrControl+Shift+4",
-      "changeColor": "CommandOrControl+Shift+Q",
-      "changeSize": "CommandOrControl+Shift+W"
+      "drawPen": "CommandOrControl+Alt+P",
+      "drawRectangle": "CommandOrControl+Alt+R",
+      "drawCircle": "CommandOrControl+Alt+C",
+      "drawEraser": "CommandOrControl+Alt+E",
+      "moveTool": "CommandOrControl+Alt+M",
+      "changeColor": "CommandOrControl+Alt+Q",
+      "changeSize": "CommandOrControl+Alt+W"
     },
     "basicColors": {
-      "setRedColor": "CommandOrControl+R",
-      "setGreenColor": "CommandOrControl+G",
-      "setBlueColor": "CommandOrControl+B",
-      "setYellowColor": "CommandOrControl+Y",
-      "setWhiteColor": "CommandOrControl+Shift+A",
-      "setBlackColor": "CommandOrControl+Shift+S"
+      "setRedColor": "Alt+1",
+      "setGreenColor": "Alt+2",
+      "setBlueColor": "Alt+3",
+      "setYellowColor": "Alt+4",
+      "setWhiteColor": "Alt+5",
+      "setBlackColor": "Alt+6"
     },
     "additionalColors": {
-      "setOrangeColor": "CommandOrControl+O",
-      "setPurpleColor": "CommandOrControl+P",
-      "setPinkColor": "CommandOrControl+K",
-      "setMagentaColor": "CommandOrControl+M",
-      "setCyanColor": "CommandOrControl+C",
-      "setLimeColor": "CommandOrControl+L",
-      "setBrownColor": "CommandOrControl+Shift+B",
-      "setGrayColor": "CommandOrControl+Shift+G",
-      "setLightGrayColor": "CommandOrControl+Shift+L",
-      "setDarkGrayColor": "CommandOrControl+Shift+K"
+      "setOrangeColor": "Alt+7",
+      "setPurpleColor": "Alt+8",
+      "setPinkColor": "Alt+9",
+      "setMagentaColor": "Alt+0",
+      "setCyanColor": "CommandOrControl+Alt+1",
+      "setLimeColor": "CommandOrControl+Alt+2",
+      "setBrownColor": "CommandOrControl+Alt+3",
+      "setGrayColor": "CommandOrControl+Alt+4",
+      "setLightGrayColor": "CommandOrControl+Alt+5",
+      "setDarkGrayColor": "CommandOrControl+Alt+6"
     }
   },
   "descriptions": {
@@ -46,32 +47,33 @@
       "exitDrawingMode": "Salir del Modo Dibujo"
     },
     "tools": {
-      "drawPen": "Lápiz",
-      "drawRectangle": "Rectángulo",
-      "drawCircle": "Círculo",
-      "drawEraser": "Borrador",
-      "changeColor": "Cambiar Color",
-      "changeSize": "Cambiar Tamaño"
+      "drawPen": "Lápiz (Cmd+Alt+P)",
+      "drawRectangle": "Rectángulo (Cmd+Alt+R)",
+      "drawCircle": "Círculo (Cmd+Alt+C)",
+      "drawEraser": "Borrador (Cmd+Alt+E)",
+      "moveTool": "Mover (Cmd+Alt+M)",
+      "changeColor": "Cambiar Color (Cmd+Alt+Q)",
+      "changeSize": "Cambiar Tamaño (Cmd+Alt+W)"
     },
     "basicColors": {
-      "setRedColor": "Rojo",
-      "setGreenColor": "Verde",
-      "setBlueColor": "Azul",
-      "setYellowColor": "Amarillo",
-      "setWhiteColor": "Blanco",
-      "setBlackColor": "Negro"
+      "setRedColor": "Rojo (Option+1)",
+      "setGreenColor": "Verde (Option+2)",
+      "setBlueColor": "Azul (Option+3)",
+      "setYellowColor": "Amarillo (Option+4)",
+      "setWhiteColor": "Blanco (Option+5)",
+      "setBlackColor": "Negro (Option+6)"
     },
     "additionalColors": {
-      "setOrangeColor": "Naranja",
-      "setPurpleColor": "Púrpura",
-      "setPinkColor": "Rosa",
-      "setMagentaColor": "Magenta",
-      "setCyanColor": "Cian",
-      "setLimeColor": "Lima",
-      "setBrownColor": "Marrón",
-      "setGrayColor": "Gris",
-      "setLightGrayColor": "Gris Claro",
-      "setDarkGrayColor": "Gris Oscuro"
+      "setOrangeColor": "Naranja (Option+7)",
+      "setPurpleColor": "Púrpura (Option+8)",
+      "setPinkColor": "Rosa (Option+9)",
+      "setMagentaColor": "Magenta (Option+0)",
+      "setCyanColor": "Cian (Cmd+Alt+1)",
+      "setLimeColor": "Lima (Cmd+Alt+2)",
+      "setBrownColor": "Marrón (Cmd+Alt+3)",
+      "setGrayColor": "Gris (Cmd+Alt+4)",
+      "setLightGrayColor": "Gris Claro (Cmd+Alt+5)",
+      "setDarkGrayColor": "Gris Oscuro (Cmd+Alt+6)"
     }
   }
 }

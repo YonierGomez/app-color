@@ -168,6 +168,14 @@ function drawEraser() {
   console.log('Herramienta: Borrador');
 }
 
+function moveTool() {
+  currentTool = 'move';
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Herramienta: Mover dibujos');
+}
+
 function undoLastAction() {
   if (overlayWindow) {
     overlayWindow.webContents.send('undo-action');
@@ -408,34 +416,35 @@ function createTray() {
     { label: 'Activar/Desactivar Dibujo (Cmd+Shift+D)', click: toggleDrawingMode },
     { type: 'separator' },
     { label: 'Herramientas', submenu: [
-      { label: 'Lápiz (Cmd+Shift+1)', click: drawPen },
-      { label: 'Rectángulo (Cmd+Shift+2)', click: drawRectangle },
-      { label: 'Círculo (Cmd+Shift+3)', click: drawCircle },
-      { label: 'Borrador (Cmd+Shift+4)', click: drawEraser }
+      { label: 'Lápiz (Cmd+Alt+P)', click: drawPen },
+      { label: 'Rectángulo (Cmd+Alt+R)', click: drawRectangle },
+      { label: 'Círculo (Cmd+Alt+C)', click: drawCircle },
+      { label: 'Borrador (Cmd+Alt+E)', click: drawEraser },
+      { label: 'Mover (Cmd+Alt+M)', click: moveTool }
     ]},
     { label: 'Colores Básicos', submenu: [
-      { label: 'Rojo (Cmd+R)', click: setRedColor },
-      { label: 'Verde (Cmd+G)', click: setGreenColor },
-      { label: 'Azul (Cmd+B)', click: setBlueColor },
-      { label: 'Amarillo (Cmd+Y)', click: setYellowColor },
-      { label: 'Blanco (Cmd+Shift+A)', click: setWhiteColor },
-      { label: 'Negro (Cmd+Shift+S)', click: setBlackColor }
+      { label: 'Rojo (Option+1)', click: setRedColor },
+      { label: 'Verde (Option+2)', click: setGreenColor },
+      { label: 'Azul (Option+3)', click: setBlueColor },
+      { label: 'Amarillo (Option+4)', click: setYellowColor },
+      { label: 'Blanco (Option+5)', click: setWhiteColor },
+      { label: 'Negro (Option+6)', click: setBlackColor }
     ]},
     { label: 'Colores Adicionales', submenu: [
-      { label: 'Naranja (Cmd+O)', click: setOrangeColor },
-      { label: 'Púrpura (Cmd+P)', click: setPurpleColor },
-      { label: 'Rosa (Cmd+K)', click: setPinkColor },
-      { label: 'Magenta (Cmd+M)', click: setMagentaColor },
-      { label: 'Cian (Cmd+C)', click: setCyanColor },
-      { label: 'Lima (Cmd+L)', click: setLimeColor },
-      { label: 'Marrón (Cmd+Shift+B)', click: setBrownColor },
-      { label: 'Gris (Cmd+Shift+G)', click: setGrayColor },
-      { label: 'Gris Claro (Cmd+Shift+L)', click: setLightGrayColor },
-      { label: 'Gris Oscuro (Cmd+Shift+K)', click: setDarkGrayColor }
+      { label: 'Naranja (Option+7)', click: setOrangeColor },
+      { label: 'Púrpura (Option+8)', click: setPurpleColor },
+      { label: 'Rosa (Option+9)', click: setPinkColor },
+      { label: 'Magenta (Option+0)', click: setMagentaColor },
+      { label: 'Cian (Cmd+Alt+1)', click: setCyanColor },
+      { label: 'Lima (Cmd+Alt+2)', click: setLimeColor },
+      { label: 'Marrón (Cmd+Alt+3)', click: setBrownColor },
+      { label: 'Gris (Cmd+Alt+4)', click: setGrayColor },
+      { label: 'Gris Claro (Cmd+Alt+5)', click: setLightGrayColor },
+      { label: 'Gris Oscuro (Cmd+Alt+6)', click: setDarkGrayColor }
     ]},
     { type: 'separator' },
-    { label: 'Cambiar Color (Cmd+Shift+Q)', click: changeColor },
-    { label: 'Cambiar Tamaño (Cmd+Shift+W)', click: changeSize },
+    { label: 'Cambiar Color (Cmd+Alt+Q)', click: changeColor },
+    { label: 'Cambiar Tamaño (Cmd+Alt+W)', click: changeSize },
     { type: 'separator' },
     { label: 'Limpiar Dibujo (Cmd+Shift+C)', click: clearDrawing },
     { label: 'Deshacer (Cmd+Z)', click: undoLastAction },
@@ -471,6 +480,7 @@ function registerShortcuts() {
       drawRectangle: drawRectangle,
       drawCircle: drawCircle,
       drawEraser: drawEraser,
+      moveTool: moveTool,
       changeColor: changeColor,
       changeSize: changeSize
     },
@@ -601,13 +611,14 @@ app.whenReady().then(() => {
         { label: 'Limpiar Dibujo (Cmd+Shift+C)', accelerator: 'CmdOrCtrl+Shift+C', click: clearDrawing },
         { label: 'Resetear Todo (Cmd+Shift+R)', accelerator: 'CmdOrCtrl+Shift+R', click: resetAll },
         { type: 'separator' },
-        { label: 'Lápiz (Cmd+Shift+1)', accelerator: 'CmdOrCtrl+Shift+1', click: drawPen },
-        { label: 'Rectángulo (Cmd+Shift+2)', accelerator: 'CmdOrCtrl+Shift+2', click: drawRectangle },
-        { label: 'Círculo (Cmd+Shift+3)', accelerator: 'CmdOrCtrl+Shift+3', click: drawCircle },
-        { label: 'Borrador (Cmd+Shift+4)', accelerator: 'CmdOrCtrl+Shift+4', click: drawEraser },
+        { label: 'Lápiz (Cmd+Alt+P)', accelerator: 'CmdOrCtrl+Alt+P', click: drawPen },
+        { label: 'Rectángulo (Cmd+Alt+R)', accelerator: 'CmdOrCtrl+Alt+R', click: drawRectangle },
+        { label: 'Círculo (Cmd+Alt+C)', accelerator: 'CmdOrCtrl+Alt+C', click: drawCircle },
+        { label: 'Borrador (Cmd+Alt+E)', accelerator: 'CmdOrCtrl+Alt+E', click: drawEraser },
+        { label: 'Mover (Cmd+Alt+M)', accelerator: 'CmdOrCtrl+Alt+M', click: moveTool },
         { type: 'separator' },
-        { label: 'Cambiar Color (Cmd+Shift+Q)', accelerator: 'CmdOrCtrl+Shift+Q', click: changeColor },
-        { label: 'Cambiar Tamaño (Cmd+Shift+W)', accelerator: 'CmdOrCtrl+Shift+W', click: changeSize },
+        { label: 'Cambiar Color (Cmd+Alt+Q)', accelerator: 'CmdOrCtrl+Alt+Q', click: changeColor },
+        { label: 'Cambiar Tamaño (Cmd+Alt+W)', accelerator: 'CmdOrCtrl+Alt+W', click: changeSize },
         { type: 'separator' },
         { label: 'Deshacer (Cmd+Z)', accelerator: 'CmdOrCtrl+Z', click: undoLastAction },
         { type: 'separator' },
@@ -617,28 +628,28 @@ app.whenReady().then(() => {
     {
       label: 'Colores Básicos',
       submenu: [
-        { label: 'Rojo (Cmd+R)', accelerator: 'CmdOrCtrl+R', click: setRedColor },
-        { label: 'Verde (Cmd+G)', accelerator: 'CmdOrCtrl+G', click: setGreenColor },
-        { label: 'Azul (Cmd+B)', accelerator: 'CmdOrCtrl+B', click: setBlueColor },
-        { label: 'Amarillo (Cmd+Y)', accelerator: 'CmdOrCtrl+Y', click: setYellowColor },
-        { label: 'Blanco (Cmd+Shift+A)', accelerator: 'CmdOrCtrl+Shift+A', click: setWhiteColor },
-        { label: 'Negro (Cmd+Shift+S)', accelerator: 'CmdOrCtrl+Shift+S', click: setBlackColor }
+        { label: 'Rojo (Option+1)', accelerator: 'Alt+1', click: setRedColor },
+        { label: 'Verde (Option+2)', accelerator: 'Alt+2', click: setGreenColor },
+        { label: 'Azul (Option+3)', accelerator: 'Alt+3', click: setBlueColor },
+        { label: 'Amarillo (Option+4)', accelerator: 'Alt+4', click: setYellowColor },
+        { label: 'Blanco (Option+5)', accelerator: 'Alt+5', click: setWhiteColor },
+        { label: 'Negro (Option+6)', accelerator: 'Alt+6', click: setBlackColor }
       ]
     },
     {
       label: 'Colores Adicionales',
       submenu: [
-        { label: 'Naranja (Cmd+O)', accelerator: 'CmdOrCtrl+O', click: setOrangeColor },
-        { label: 'Púrpura (Cmd+P)', accelerator: 'CmdOrCtrl+P', click: setPurpleColor },
-        { label: 'Rosa (Cmd+K)', accelerator: 'CmdOrCtrl+K', click: setPinkColor },
-        { label: 'Magenta (Cmd+M)', accelerator: 'CmdOrCtrl+M', click: setMagentaColor },
-        { label: 'Cian (Cmd+C)', accelerator: 'CmdOrCtrl+C', click: setCyanColor },
-        { label: 'Lima (Cmd+L)', accelerator: 'CmdOrCtrl+L', click: setLimeColor },
+        { label: 'Naranja (Option+7)', accelerator: 'Alt+7', click: setOrangeColor },
+        { label: 'Púrpura (Option+8)', accelerator: 'Alt+8', click: setPurpleColor },
+        { label: 'Rosa (Option+9)', accelerator: 'Alt+9', click: setPinkColor },
+        { label: 'Magenta (Option+0)', accelerator: 'Alt+0', click: setMagentaColor },
+        { label: 'Cian (Cmd+Alt+1)', accelerator: 'CmdOrCtrl+Alt+1', click: setCyanColor },
+        { label: 'Lima (Cmd+Alt+2)', accelerator: 'CmdOrCtrl+Alt+2', click: setLimeColor },
         { type: 'separator' },
-        { label: 'Marrón (Cmd+Shift+B)', accelerator: 'CmdOrCtrl+Shift+B', click: setBrownColor },
-        { label: 'Gris (Cmd+Shift+G)', accelerator: 'CmdOrCtrl+Shift+G', click: setGrayColor },
-        { label: 'Gris Claro (Cmd+Shift+L)', accelerator: 'CmdOrCtrl+Shift+L', click: setLightGrayColor },
-        { label: 'Gris Oscuro (Cmd+Shift+K)', accelerator: 'CmdOrCtrl+Shift+K', click: setDarkGrayColor }
+        { label: 'Marrón (Cmd+Alt+3)', accelerator: 'CmdOrCtrl+Alt+3', click: setBrownColor },
+        { label: 'Gris (Cmd+Alt+4)', accelerator: 'CmdOrCtrl+Alt+4', click: setGrayColor },
+        { label: 'Gris Claro (Cmd+Alt+5)', accelerator: 'CmdOrCtrl+Alt+5', click: setLightGrayColor },
+        { label: 'Gris Oscuro (Cmd+Alt+6)', accelerator: 'CmdOrCtrl+Alt+6', click: setDarkGrayColor }
       ]
     }
   ];

@@ -104,7 +104,18 @@ app-color/
 - Si hay conflictos, solo uno funcionará (comportamiento indefinido)
 
 ### 🔒 Atajos del Sistema
-- Evita usar atajos reservados del sistema (ej: `Cmd+Tab`, `Cmd+Space`)
+- **EVITA estos atajos del sistema macOS**:
+  - `Cmd+C` (copiar) - ❌ NO usar
+  - `Cmd+V` (pegar) - ❌ NO usar  
+  - `Cmd+X` (cortar) - ❌ NO usar
+  - `Cmd+Shift+3` (captura completa) - ❌ NO usar
+  - `Cmd+Shift+4` (captura de área) - ❌ NO usar
+  - `Cmd+Shift+5` (grabar pantalla) - ❌ NO usar
+  - `Cmd+Z` (deshacer) - ✅ OK para deshacer del dibujo
+- **USA combinaciones completamente seguras**:
+  - `Cmd+Alt+[letra]` - ✅ Seguro para herramientas
+  - `Option+[número]` - ✅ PERFECTO para colores (no conflicta con nada!)
+  - `Cmd+Shift+[letra]` - ✅ Seguro para funciones principales
 - Algunos atajos pueden no funcionar según el contexto del sistema
 - Prueba siempre los atajos después de configurarlos
 
@@ -170,11 +181,20 @@ app-color/
 
 ### 🔗 Patrones Recomendados
 ```bash
-# Patrón por categorías
-Control:     Cmd+Shift+[Letra]
-Herramientas: Cmd+Shift+[Número]
-Colores:     Cmd+[Letra] (sin Shift para básicos)
-Avanzados:   Cmd+Shift+[Letra] (para adicionales)
+# Patrón actualizado (completamente seguro para macOS)
+Control:      Cmd+Shift+[Letra] (para funciones principales)
+Herramientas: Cmd+Alt+[Letra]   (para herramientas de dibujo)
+Colores Base: Option+[1-6]      (colores básicos - súper fácil!)
+Colores Ext:  Option+[7-0]      (colores adicionales)
+            Cmd+Alt+[1-6]      (más colores adicionales)
+
+# Ejemplos completamente seguros:
+Cmd+Alt+P    → Lápiz
+Cmd+Alt+R    → Rectángulo  
+Option+1     → Rojo (¡súper simple!)
+Option+2     → Verde
+Option+7     → Naranja
+Cmd+Alt+1    → Cian
 ```
 
 ### 📋 Respaldo de Configuración

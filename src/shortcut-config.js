@@ -45,32 +45,33 @@ class ShortcutConfig {
                     "exitDrawingMode": "Escape"
                 },
                 "tools": {
-                    "drawPen": "CommandOrControl+Shift+1",
-                    "drawRectangle": "CommandOrControl+Shift+2",
-                    "drawCircle": "CommandOrControl+Shift+3",
-                    "drawEraser": "CommandOrControl+Shift+4",
-                    "changeColor": "CommandOrControl+Shift+Q",
-                    "changeSize": "CommandOrControl+Shift+W"
+                    "drawPen": "CommandOrControl+Alt+P",
+                    "drawRectangle": "CommandOrControl+Alt+R",
+                    "drawCircle": "CommandOrControl+Alt+C",
+                    "drawEraser": "CommandOrControl+Alt+E",
+                    "moveTool": "CommandOrControl+Alt+M",
+                    "changeColor": "CommandOrControl+Alt+Q",
+                    "changeSize": "CommandOrControl+Alt+W"
                 },
                 "basicColors": {
-                    "setRedColor": "CommandOrControl+R",
-                    "setGreenColor": "CommandOrControl+G",
-                    "setBlueColor": "CommandOrControl+B",
-                    "setYellowColor": "CommandOrControl+Y",
-                    "setWhiteColor": "CommandOrControl+Shift+A",
-                    "setBlackColor": "CommandOrControl+Shift+S"
+                    "setRedColor": "Alt+1",
+                    "setGreenColor": "Alt+2",
+                    "setBlueColor": "Alt+3",
+                    "setYellowColor": "Alt+4",
+                    "setWhiteColor": "Alt+5",
+                    "setBlackColor": "Alt+6"
                 },
                 "additionalColors": {
-                    "setOrangeColor": "CommandOrControl+O",
-                    "setPurpleColor": "CommandOrControl+P",
-                    "setPinkColor": "CommandOrControl+K",
-                    "setMagentaColor": "CommandOrControl+M",
-                    "setCyanColor": "CommandOrControl+C",
-                    "setLimeColor": "CommandOrControl+L",
-                    "setBrownColor": "CommandOrControl+Shift+B",
-                    "setGrayColor": "CommandOrControl+Shift+G",
-                    "setLightGrayColor": "CommandOrControl+Shift+L",
-                    "setDarkGrayColor": "CommandOrControl+Shift+K"
+                    "setOrangeColor": "Alt+7",
+                    "setPurpleColor": "Alt+8",
+                    "setPinkColor": "Alt+9",
+                    "setMagentaColor": "Alt+0",
+                    "setCyanColor": "CommandOrControl+Alt+1",
+                    "setLimeColor": "CommandOrControl+Alt+2",
+                    "setBrownColor": "CommandOrControl+Alt+3",
+                    "setGrayColor": "CommandOrControl+Alt+4",
+                    "setLightGrayColor": "CommandOrControl+Alt+5",
+                    "setDarkGrayColor": "CommandOrControl+Alt+6"
                 }
             }
         };

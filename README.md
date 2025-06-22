@@ -70,10 +70,11 @@ Ahora tienes **16 colores diferentes** con atajos rápidos:
 - 6 colores básicos (rojo, verde, azul, amarillo, blanco, negro)
 - 10 colores adicionales (naranja, púrpura, rosa, magenta, cian, lima, marrón, y 3 tonos de gris)
 
-### ⌨️ **Atajos súper intuitivos:**
-- Colores básicos: `Cmd + letra` (R, G, B, Y, etc.)
-- Colores adicionales: `Cmd + letra` o `Cmd+Shift + letra`
-- ¡Perfecto para cambios rápidos durante presentaciones!
+### ⌨️ **Atajos súper intuitivos (seguros para macOS):**
+- Herramientas: `Cmd + Alt + letra` (P=lápiz, R=rectángulo, etc.)
+- Colores básicos: `Option + número` (1-6) ← ¡Ya no conflicta con capturas!
+- Colores adicionales: `Option + número` (7-0) y `Cmd + Alt + número` (1-6)
+- ¡Perfecto para cambios rápidos durante presentaciones sin interferir con el sistema!
 
 ---
 
@@ -95,35 +96,43 @@ Es súper simple:
 - **Salir del modo dibujo:** `Esc` 
 
 #### 🛠️ Herramientas:
-- **Lápiz:** `Cmd+Shift+1` ✏️
-- **Rectángulo:** `Cmd+Shift+2` 📐
-- **Círculo:** `Cmd+Shift+3` ⭕
-- **Borrador:** `Cmd+Shift+4` 🧹
+- **Lápiz:** `Cmd+Alt+P` ✏️
+- **Rectángulo:** `Cmd+Alt+R` 📐
+- **Círculo:** `Cmd+Alt+C` ⭕
+- **Borrador:** `Cmd+Alt+E` 🧹
 
 #### 🎨 Colores básicos:
-- **Rojo:** `Cmd+R` ❤️
-- **Verde:** `Cmd+G` 💚
-- **Azul:** `Cmd+B` 💙
-- **Amarillo:** `Cmd+Y` 💛
-- **Blanco:** `Cmd+Shift+A` 🤍
-- **Negro:** `Cmd+Shift+S` 🖤
+- **Rojo:** `Option+1` ❤️
+- **Verde:** `Option+2` 💚
+- **Azul:** `Option+3` 💙
+- **Amarillo:** `Option+4` 💛
+- **Blanco:** `Option+5` 🤍
+- **Negro:** `Option+6` 🖤
 
 #### 🌈 Colores adicionales:
-- **Naranja:** `Cmd+O` 🧡
-- **Púrpura:** `Cmd+P` 💜
-- **Rosa:** `Cmd+K` 🩷
-- **Magenta:** `Cmd+M` 🩵
-- **Cian:** `Cmd+C` 💎
-- **Lima:** `Cmd+L` 💚
-- **Marrón:** `Cmd+Shift+B` 🤎
-- **Gris:** `Cmd+Shift+G` 🩶
-- **Gris Claro:** `Cmd+Shift+L` ⬜
-- **Gris Oscuro:** `Cmd+Shift+K` ⬛
+- **Naranja:** `Option+7` 🧡
+- **Púrpura:** `Option+8` 💜
+- **Rosa:** `Option+9` 🩷
+- **Magenta:** `Option+0` 🩵
+- **Cian:** `Cmd+Alt+1` 💎
+- **Lima:** `Cmd+Alt+2` 💚
+- **Marrón:** `Cmd+Alt+3` 🤎
+- **Gris:** `Cmd+Alt+4` 🩶
+- **Gris Claro:** `Cmd+Alt+5` ⬜
+- **Gris Oscuro:** `Cmd+Alt+6` ⬛
 
 #### ⚙️ Extras:
-- **Cambiar colores:** `Cmd+Shift+Q` 🌈
-- **Cambiar grosor:** `Cmd+Shift+W` 📏
+- **Cambiar colores:** `Cmd+Alt+Q` 🌈
+- **Cambiar grosor:** `Cmd+Alt+W` 📏
 - **Deshacer:** `Cmd+Z` ⏪
+
+> **💡 ¡Atajos completamente seguros para macOS!**  
+> Hemos optimizado todos los atajos para evitar conflictos:
+> - ❌ Ya no usamos `Cmd+C` (para no interferir con copiar)
+> - ❌ Ya no usamos `Cmd+Shift+3/4/5` (evita capturas de pantalla y grabación)  
+> - ✅ Ahora usamos `Cmd+Alt+letra` para herramientas
+> - ✅ Y `Option+número` para colores (¡súper fácil!)  
+> ¡Así puedes usar todos tus atajos del sistema sin problemas! 🎯
 
 ---
 
