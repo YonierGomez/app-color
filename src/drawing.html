@@ -22,34 +22,26 @@
             background: transparent;
         }
         
-        .cursor-pen { cursor: crosshair; }
-        .cursor-rectangle { cursor: crosshair; }
-        .cursor-circle { cursor: crosshair; }
-        .cursor-eraser { cursor: grab; }
+        /* Cursores para herramientas */
+        .cursor-pen { cursor: crosshair !important; }
+        .cursor-rectangle { cursor: crosshair !important; }
+        .cursor-circle { cursor: crosshair !important; }
+        .cursor-eraser { cursor: grab !important; }
+        .cursor-move { cursor: grab !important; }
+        .cursor-recolor { cursor: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Im0xOSAyMC0yLTIiLz48cGF0aCBkPSJNNCAxNmgxNnYtMyIvPjxwYXRoIGQ9Im0yMCAxM3MtNS03LTE1LTcgNSA3IDUgNyIvPjwvc3ZnPg==') 12 12, pointer !important; }
+        .cursor-text { cursor: text !important; }
+        
+        /* Cursores específicos para la herramienta de mano */
+        .cursor-move #canvas { cursor: grab !important; }
+        .cursor-move.grabbing #canvas { cursor: grabbing !important; }
+        
+        /* Fallback para navegadores que no soportan grab/grabbing */
+        .cursor-move { cursor: -webkit-grab !important; cursor: -moz-grab !important; cursor: grab !important; }
+        .cursor-move.grabbing { cursor: -webkit-grabbing !important; cursor: -moz-grabbing !important; cursor: grabbing !important; }
     </style>
 </head>
 <body>
     <canvas id="canvas"></canvas>
     <script src="drawing.js"></script>
-</body>
-</html>
-        
-        .color-btn {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 2px solid white;
-            margin: 2px;
-        }
-        
-        .size-btn {
-            background: #2196F3 !important;
-        }
-    </style>
-</head>
-<body>
-    <canvas id="canvas"></canvas>
-    
-
 </body>
 </html>

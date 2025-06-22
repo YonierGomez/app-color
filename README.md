@@ -2,6 +2,13 @@
 
 ¡Hola! 👋 ¿Necesitas dibujar sobre tu## 🎉 ¡Novedades v1.3.0!
 
+### 🎨 **¡Nueva Herramienta de Recolorear!**
+¡Ahora puedes cambiar colores de áreas completas como un **balde de pintura**!
+- 🪣 **Flood Fill inteligente** - Cambia todos los píxeles del mismo color conectados
+- 🎯 **Un solo clic** - Selecciona el área y ¡listo!
+- 🌈 **Preserva bordes** - Solo cambia el área seleccionada, respeta los límites
+- ⚡ **Súper rápido** - Perfecto para corregir colores o crear variaciones
+
 ### ✋ **¡Nueva Herramienta de Mano!**
 Ahora puedes **arrastrar y mover** tu dibujo completo por la pantalla:
 - 🖱️ **Drag & Drop en tiempo real** - Arrastra tu dibujo completo libremente
@@ -13,11 +20,13 @@ Ahora puedes **arrastrar y mover** tu dibujo completo por la pantalla:
 Ahora tienes **16 colores diferentes** con atajos rápidos:
 - 6 colores básicos (rojo, verde, azul, amarillo, blanco, negro)
 - 10 colores adicionales (naranja, púrpura, rosa, magenta, cian, lima, marrón, y 3 tonos de gris)
+- 🔤 **Atajos con letras** - `Option+R` (rojo), `Option+G` (verde), `Option+B` (azul), etc.
 
 ### ⌨️ **Atajos súper intuitivos (seguros para macOS):**
-- Herramientas: `Cmd + Alt + letra` (P=lápiz, R=rectángulo, M=mover, etc.)
+- Herramientas: `Cmd + Alt + letra` (P=lápiz, R=rectángulo, M=mover, B=recolorear, etc.)
 - Colores básicos: `Option + número` (1-6) ← ¡Ya no conflicta con capturas!
 - Colores adicionales: `Option + número` (7-0) y `Cmd + Alt + número` (1-6)
+- Colores con letras: `Option + letra` (R=rojo, G=verde, B=azul, etc.)
 - ¡Perfecto para cambios rápidos durante presentaciones sin interferir con el sistema!rante una presentación? ¡Esta app es perfecta para ti! 
 
 **Yonier Color Presenter** es una aplicación súper fácil de usar para macOS que te permite dibujar, anotar y resaltar cualquier cosa en tu pantalla. Perfecta para profesores, presentadores o cualquiera que quiera hacer sus explicaciones más visuales. 📚✨
@@ -31,7 +40,9 @@ Ahora tienes **16 colores diferentes** con atajos rápidos:
 ⭕ **Dibujar círculos** para señalar detalles importantes  
 🧹 **Borrar** lo que ya no necesites  
 ✋ **Mover y arrastrar** tu dibujo completo por la pantalla (herramienta de mano)  
+🪣 **Recolorear áreas completas** como un balde de pintura (flood fill)  
 🎨 **16 colores diferentes** con atajos rápidos (rojo, verde, azul, naranja, púrpura, rosa, y más)  
+🔤 **Atajos con letras** para colores (`Option+R`, `Option+G`, `Option+B`, etc.)  
 📏 **Ajustar el grosor** del trazo  
 ⏪ **Deshacer** tu último trazo  
 🗑️ **Limpiar todo** de una vez  
@@ -106,6 +117,24 @@ Es súper simple:
 3. ✏️ **Activa el modo dibujo** con `Cmd+Shift+D`
 4. 🎨 **¡Empieza a dibujar!**
 
+### 🪣 ¿Cómo usar la herramienta de recolorear?
+
+La herramienta de recolorear funciona como un **"balde de pintura"** inteligente:
+
+1. **Dibuja algo** con cualquier herramienta (lápiz, rectángulo, círculo)
+2. **Selecciona la herramienta de recolorear:** `Cmd+Alt+B`
+3. **Elige un color nuevo** (ej: `Option+R` para rojo)
+4. **Haz clic** en el área que quieres cambiar
+5. **¡Magia!** 🪄 - Toda el área del mismo color se cambia automáticamente
+
+**Ejemplos de uso:**
+- 🎯 Cambiar el color de fondo de un dibujo
+- 🖼️ Recolorear objetos sin redibujar
+- 🌈 Crear variaciones rápidas de color
+- ✏️ Corregir errores de color al instante
+
+> **💡 Tip:** La herramienta solo cambia píxeles **conectados** del mismo color, preservando los bordes y detalles de tu dibujo.
+
 ### ⌨️ Atajos súper útiles
 
 #### 🎮 Controles básicos:
@@ -120,6 +149,7 @@ Es súper simple:
 - **Círculo:** `Cmd+Alt+C` ⭕
 - **Borrador:** `Cmd+Alt+E` 🧹
 - **Mover (Mano):** `Cmd+Alt+M` ✋
+- **Recolorear:** `Cmd+Alt+B` 🪣
 
 #### 🎨 Colores básicos:
 - **Rojo:** `Option+1` ❤️
@@ -140,6 +170,16 @@ Es súper simple:
 - **Gris:** `Cmd+Alt+4` 🩶
 - **Gris Claro:** `Cmd+Alt+5` ⬜
 - **Gris Oscuro:** `Cmd+Alt+6` ⬛
+
+#### 🔤 Colores con letras (¡súper rápido!):
+- **Rojo:** `Option+R` ❤️
+- **Verde:** `Option+G` 💚
+- **Azul:** `Option+B` 💙
+- **Amarillo:** `Option+Y` 💛
+- **Blanco:** `Option+W` 🤍
+- **Negro:** `Option+K` 🖤
+- **Naranja:** `Option+O` 🧡
+- **Púrpura:** `Option+P` 💜
 
 #### ⚙️ Extras:
 - **Cambiar colores:** `Cmd+Alt+Q` 🌈
@@ -168,8 +208,8 @@ Es súper simple:
 
 2. **Edita lo que quieras:**
    - 🎮 **Controles básicos** (activar/limpiar/resetear)
-   - 🛠️ **Herramientas** (lápiz/rectángulo/círculo/borrador/mover)
-   - 🎨 **Todos los colores** (básicos y adicionales)
+   - 🛠️ **Herramientas** (lápiz/rectángulo/círculo/borrador/mover/recolorear)
+   - 🎨 **Todos los colores** (básicos, adicionales y con letras)
 
 3. **Guarda y listo!**
    - Los cambios se aplican inmediatamente

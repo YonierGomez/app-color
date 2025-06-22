@@ -14,6 +14,7 @@
       "drawCircle": "CommandOrControl+Alt+C",
       "drawEraser": "CommandOrControl+Alt+E",
       "moveTool": "CommandOrControl+Alt+M",
+      "recolorTool": "CommandOrControl+Alt+B",
       "changeColor": "CommandOrControl+Alt+Q",
       "changeSize": "CommandOrControl+Alt+W"
     },
@@ -36,6 +37,16 @@
       "setGrayColor": "CommandOrControl+Alt+4",
       "setLightGrayColor": "CommandOrControl+Alt+5",
       "setDarkGrayColor": "CommandOrControl+Alt+6"
+    },
+    "letterColors": {
+      "setRedColorLetter": "Alt+R",
+      "setGreenColorLetter": "Alt+G",
+      "setBlueColorLetter": "Alt+B",
+      "setYellowColorLetter": "Alt+Y",
+      "setWhiteColorLetter": "Alt+W",
+      "setBlackColorLetter": "Alt+K",
+      "setOrangeColorLetter": "Alt+O",
+      "setPurpleColorLetter": "Alt+P"
     }
   },
   "descriptions": {
@@ -52,6 +63,7 @@
       "drawCircle": "Círculo (Cmd+Alt+C)",
       "drawEraser": "Borrador (Cmd+Alt+E)",
       "moveTool": "Mover (Cmd+Alt+M)",
+      "recolorTool": "Recolorear (Cmd+Alt+B)",
       "changeColor": "Cambiar Color (Cmd+Alt+Q)",
       "changeSize": "Cambiar Tamaño (Cmd+Alt+W)"
     },
@@ -74,6 +86,16 @@
       "setGrayColor": "Gris (Cmd+Alt+4)",
       "setLightGrayColor": "Gris Claro (Cmd+Alt+5)",
       "setDarkGrayColor": "Gris Oscuro (Cmd+Alt+6)"
+    },
+    "letterColors": {
+      "setRedColorLetter": "Rojo (Option+R)",
+      "setGreenColorLetter": "Verde (Option+G)",
+      "setBlueColorLetter": "Azul (Option+B)",
+      "setYellowColorLetter": "Amarillo (Option+Y)",
+      "setWhiteColorLetter": "Blanco (Option+W)",
+      "setBlackColorLetter": "Negro (Option+K)",
+      "setOrangeColorLetter": "Naranja (Option+O)",
+      "setPurpleColorLetter": "Púrpura (Option+P)"
     }
   }
 }

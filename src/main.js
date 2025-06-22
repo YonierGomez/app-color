@@ -176,6 +176,14 @@ function moveTool() {
   console.log('Herramienta: Mover dibujos');
 }
 
+function recolorTool() {
+  currentTool = 'recolor';
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Herramienta: Recolorear (Balde de pintura)');
+}
+
 function undoLastAction() {
   if (overlayWindow) {
     overlayWindow.webContents.send('undo-action');
@@ -352,6 +360,79 @@ function setCyanColor() {
   console.log('Color establecido: Cian');
 }
 
+// Funciones para atajos de colores con letras
+function setRedColorLetter() {
+  currentColor = basicColors.red;
+  colorIndex = colors.indexOf(currentColor);
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Rojo (Option+R)');
+}
+
+function setGreenColorLetter() {
+  currentColor = basicColors.green;
+  colorIndex = colors.indexOf(currentColor);
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Verde (Option+G)');
+}
+
+function setBlueColorLetter() {
+  currentColor = basicColors.blue;
+  colorIndex = colors.indexOf(currentColor);
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Azul (Option+B)');
+}
+
+function setYellowColorLetter() {
+  currentColor = basicColors.yellow;
+  colorIndex = colors.indexOf(currentColor);
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Amarillo (Option+Y)');
+}
+
+function setWhiteColorLetter() {
+  currentColor = basicColors.white;
+  colorIndex = colors.indexOf(currentColor);
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Blanco (Option+W)');
+}
+
+function setBlackColorLetter() {
+  currentColor = basicColors.black;
+  colorIndex = colors.indexOf(currentColor);
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Negro (Option+K)');
+}
+
+function setOrangeColorLetter() {
+  currentColor = basicColors.orange;
+  colorIndex = colors.indexOf(currentColor);
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Naranja (Option+O)');
+}
+
+function setPurpleColorLetter() {
+  currentColor = basicColors.purple;
+  colorIndex = colors.indexOf(currentColor);
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Color establecido: Púrpura (Option+P)');
+}
+
 // Función para abrir la ventana de configuración de atajos
 function openShortcutsConfig() {
   if (configWindow && !configWindow.isDestroyed()) {
@@ -420,7 +501,8 @@ function createTray() {
       { label: 'Rectángulo (Cmd+Alt+R)', click: drawRectangle },
       { label: 'Círculo (Cmd+Alt+C)', click: drawCircle },
       { label: 'Borrador (Cmd+Alt+E)', click: drawEraser },
-      { label: 'Mover (Cmd+Alt+M)', click: moveTool }
+      { label: 'Mover (Cmd+Alt+M)', click: moveTool },
+      { label: 'Recolorear (Cmd+Alt+B)', click: recolorTool }
     ]},
     { label: 'Colores Básicos', submenu: [
       { label: 'Rojo (Option+1)', click: setRedColor },
@@ -441,6 +523,16 @@ function createTray() {
       { label: 'Gris (Cmd+Alt+4)', click: setGrayColor },
       { label: 'Gris Claro (Cmd+Alt+5)', click: setLightGrayColor },
       { label: 'Gris Oscuro (Cmd+Alt+6)', click: setDarkGrayColor }
+    ]},
+    { label: 'Colores con Letras', submenu: [
+      { label: 'Rojo (Option+R)', click: setRedColorLetter },
+      { label: 'Verde (Option+G)', click: setGreenColorLetter },
+      { label: 'Azul (Option+B)', click: setBlueColorLetter },
+      { label: 'Amarillo (Option+Y)', click: setYellowColorLetter },
+      { label: 'Blanco (Option+W)', click: setWhiteColorLetter },
+      { label: 'Negro (Option+K)', click: setBlackColorLetter },
+      { label: 'Naranja (Option+O)', click: setOrangeColorLetter },
+      { label: 'Púrpura (Option+P)', click: setPurpleColorLetter }
     ]},
     { type: 'separator' },
     { label: 'Cambiar Color (Cmd+Alt+Q)', click: changeColor },
@@ -481,6 +573,7 @@ function registerShortcuts() {
       drawCircle: drawCircle,
       drawEraser: drawEraser,
       moveTool: moveTool,
+      recolorTool: recolorTool,
       changeColor: changeColor,
       changeSize: changeSize
     },
@@ -503,6 +596,16 @@ function registerShortcuts() {
       setGrayColor: setGrayColor,
       setLightGrayColor: setLightGrayColor,
       setDarkGrayColor: setDarkGrayColor
+    },
+    letterColors: {
+      setRedColorLetter: setRedColorLetter,
+      setGreenColorLetter: setGreenColorLetter,
+      setBlueColorLetter: setBlueColorLetter,
+      setYellowColorLetter: setYellowColorLetter,
+      setWhiteColorLetter: setWhiteColorLetter,
+      setBlackColorLetter: setBlackColorLetter,
+      setOrangeColorLetter: setOrangeColorLetter,
+      setPurpleColorLetter: setPurpleColorLetter
     }
   };
 
@@ -536,7 +639,8 @@ function registerShortcuts() {
     control: '🎮 CONTROL',
     tools: '🛠️ HERRAMIENTAS',
     basicColors: '🎨 COLORES BÁSICOS',
-    additionalColors: '🌈 COLORES ADICIONALES'
+    additionalColors: '🌈 COLORES ADICIONALES',
+    letterColors: '🔤 COLORES CON LETRAS'
   };
 
   Object.entries(categories).forEach(([category, title]) => {

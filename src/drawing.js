@@ -167,6 +167,7 @@ class DrawingApp {
     }
     
     updateCursor() {
+        // Usar cursor simple para todas las herramientas
         document.body.className = `cursor-${this.currentTool}`;
     }
     
@@ -200,6 +201,11 @@ class DrawingApp {
             this.dragStartX = this.startX;
             this.dragStartY = this.startY;
             this.startHandTool();
+        } else if (this.currentTool === 'recolor') {
+            // Herramienta de recolorear - solo necesita un clic
+            console.log(`🎨 Aplicando recolorear en (${this.startX}, ${this.startY}) con color ${this.currentColor}`);
+            this.recolorArea(this.startX, this.startY, this.currentColor);
+            this.isDrawing = false; // No necesita arrastre
         }
     }
     
@@ -226,6 +232,9 @@ class DrawingApp {
                 break;
             case 'move':
                 this.handleHandDrag(currentX, currentY);
+                break;
+            case 'recolor':
+                // La herramienta de recolorear no necesita arrastre
                 break;
             case 'text':
                 // El texto se maneja con clicks, no con arrastre
@@ -291,9 +300,6 @@ class DrawingApp {
         // Guardar el contenido actual del canvas
         this.canvasImageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
         
-        // Cambiar cursor a mano
-        this.canvas.style.cursor = 'grab';
-        
         // Resetear offsets temporales
         this.tempOffsetX = 0;
         this.tempOffsetY = 0;
@@ -301,9 +307,6 @@ class DrawingApp {
     
     handleHandDrag(currentX, currentY) {
         if (!this.isDragging || !this.isHandMode) return;
-        
-        // Cambiar cursor mientras arrastra
-        this.canvas.style.cursor = 'grabbing';
         
         // Calcular desplazamiento desde el punto inicial
         const deltaX = currentX - this.dragStartX;
@@ -333,7 +336,7 @@ class DrawingApp {
         if (this.tempOffsetX !== 0 || this.tempOffsetY !== 0) {
             // El canvas ya tiene el contenido en la nueva posición
             this.saveState();
-            console.log('� Estado guardado después del arrastre');
+            console.log('💾 Estado guardado después del arrastre');
         } else {
             // Si no hubo movimiento, restaurar el estado original
             if (this.canvasImageData) {
@@ -349,9 +352,6 @@ class DrawingApp {
         this.canvasImageData = null;
         this.tempOffsetX = 0;
         this.tempOffsetY = 0;
-        
-        // Restaurar cursor
-        this.canvas.style.cursor = 'default';
         
         console.log('✋ Herramienta de mano finalizada');
     }
@@ -373,9 +373,6 @@ class DrawingApp {
         this.canvasImageData = null;
         this.tempOffsetX = 0;
         this.tempOffsetY = 0;
-        
-        // Restaurar cursor
-        this.canvas.style.cursor = 'default';
         
         console.log('✅ Arrastre de mano cancelado');
     }
@@ -849,7 +846,164 @@ class DrawingApp {
         }
     }
     
-    // ...existing code...
+    // ==================== HERRAMIENTA DE RECOLOREAR ====================
+    
+    recolorArea(x, y, newColor) {
+        console.log(`🎨 Iniciando recolorear en (${x}, ${y}) con color ${newColor}`);
+        
+        // Obtener datos de imagen del canvas
+        const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+        const data = imageData.data;
+        
+        // Convertir coordenadas a índice de pixel
+        const pixelIndex = (Math.floor(y) * this.canvas.width + Math.floor(x)) * 4;
+        
+        // Verificar que las coordenadas están dentro del canvas
+        if (pixelIndex < 0 || pixelIndex >= data.length) {
+            console.log('❌ Coordenadas fuera del canvas');
+            return;
+        }
+        
+        // Obtener color original en el punto clicado
+        const originalR = data[pixelIndex];
+        const originalG = data[pixelIndex + 1];
+        const originalB = data[pixelIndex + 2];
+        const originalA = data[pixelIndex + 3];
+        
+        // Convertir nuevo color hex a RGB
+        const newRGB = this.hexToRgb(newColor);
+        if (!newRGB) {
+            console.log('❌ Color inválido');
+            return;
+        }
+        
+        // Si el color original es igual al nuevo, no hacer nada
+        if (originalR === newRGB.r && originalG === newRGB.g && originalB === newRGB.b) {
+            console.log('ℹ️ El color original ya es igual al nuevo color');
+            return;
+        }
+        
+        console.log(`🎯 Color original: RGB(${originalR}, ${originalG}, ${originalB}, ${originalA})`);
+        console.log(`🎯 Color nuevo: RGB(${newRGB.r}, ${newRGB.g}, ${newRGB.b})`);
+        
+        // Función de flood fill
+        const pixelsToCheck = [{ x: Math.floor(x), y: Math.floor(y) }];
+        const checkedPixels = new Set();
+        
+        while (pixelsToCheck.length > 0) {
+            const { x: currentX, y: currentY } = pixelsToCheck.pop();
+            
+            // Crear clave única para el pixel
+            const pixelKey = `${currentX},${currentY}`;
+            
+            // Si ya revisamos este pixel, continuar
+            if (checkedPixels.has(pixelKey)) continue;
+            checkedPixels.add(pixelKey);
+            
+            // Verificar límites
+            if (currentX < 0 || currentX >= this.canvas.width || 
+                currentY < 0 || currentY >= this.canvas.height) {
+                continue;
+            }
+            
+            // Obtener índice del pixel actual
+            const currentPixelIndex = (currentY * this.canvas.width + currentX) * 4;
+            
+            // Verificar si el pixel actual tiene el color original
+            if (data[currentPixelIndex] === originalR &&
+                data[currentPixelIndex + 1] === originalG &&
+                data[currentPixelIndex + 2] === originalB &&
+                data[currentPixelIndex + 3] === originalA) {
+                
+                // Cambiar el color del pixel
+                data[currentPixelIndex] = newRGB.r;
+                data[currentPixelIndex + 1] = newRGB.g;
+                data[currentPixelIndex + 2] = newRGB.b;
+                // Mantener la transparencia original
+                // data[currentPixelIndex + 3] = originalA;
+                
+                // Agregar píxeles vecinos para revisar
+                pixelsToCheck.push({ x: currentX + 1, y: currentY });
+                pixelsToCheck.push({ x: currentX - 1, y: currentY });
+                pixelsToCheck.push({ x: currentX, y: currentY + 1 });
+                pixelsToCheck.push({ x: currentX, y: currentY - 1 });
+            }
+        }
+        
+        // Aplicar los cambios al canvas
+        this.ctx.putImageData(imageData, 0, 0);
+        
+        // Guardar estado
+        this.saveState();
+        
+        console.log(`✅ Recolorear completado. Píxeles revisados: ${checkedPixels.size}`);
+    }
+    
+    hexToRgb(hex) {
+        // Convertir color hexadecimal a RGB
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+    
+    // Función auxiliar para demostrar la herramienta
+    demonstrateRecolor() {
+        console.log('🎨 DEMOSTRACIÓN: Herramienta de Recolorear');
+        console.log('1. Dibuja algo con un color (ej: círculo rojo)');
+        console.log('2. Cambia a la herramienta de recolorear');
+        console.log('3. Selecciona un color diferente (ej: azul)');
+        console.log('4. Haz clic en el área roja');
+        console.log('5. ¡Todo el área roja se volverá azul!');
+        
+        // Crear un ejemplo programático
+        this.createRecolorExample();
+    }
+    
+    createRecolorExample() {
+        console.log('🎨 Creando ejemplo de recolorear...');
+        
+        // Dibujar un círculo rojo
+        this.ctx.fillStyle = '#ff0000';
+        this.ctx.beginPath();
+        this.ctx.arc(200, 150, 50, 0, 2 * Math.PI);
+        this.ctx.fill();
+        
+        // Dibujar un rectángulo verde
+        this.ctx.fillStyle = '#00ff00';
+        this.ctx.fillRect(300, 100, 100, 100);
+        
+        // Dibujar algunos puntos azules
+        this.ctx.fillStyle = '#0000ff';
+        for (let i = 0; i < 5; i++) {
+            this.ctx.beginPath();
+            this.ctx.arc(100 + i * 30, 300, 10, 0, 2 * Math.PI);
+            this.ctx.fill();
+        }
+        
+        this.saveState();
+        
+        console.log('✅ Ejemplo creado: círculo rojo, rectángulo verde, puntos azules');
+        console.log('💡 Ahora puedes probar la herramienta de recolorear haciendo clic en cualquier área');
+        
+        // Simular recolorear después de 3 segundos
+        setTimeout(() => {
+            console.log('🎨 SIMULANDO: Recoloreando círculo rojo a amarillo...');
+            this.recolorArea(200, 150, '#ffff00');
+        }, 3000);
+        
+        setTimeout(() => {
+            console.log('🎨 SIMULANDO: Recoloreando rectángulo verde a púrpura...');
+            this.recolorArea(350, 150, '#ff00ff');
+        }, 5000);
+        
+        setTimeout(() => {
+            console.log('🎨 SIMULANDO: Recoloreando puntos azules a naranja...');
+            this.recolorArea(100, 300, '#ffa500');
+        }, 7000);
+    }
 }
 
 // Inicializar la aplicación cuando el DOM esté listo

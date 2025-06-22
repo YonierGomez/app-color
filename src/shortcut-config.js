@@ -72,6 +72,16 @@ class ShortcutConfig {
                     "setGrayColor": "CommandOrControl+Alt+4",
                     "setLightGrayColor": "CommandOrControl+Alt+5",
                     "setDarkGrayColor": "CommandOrControl+Alt+6"
+                },
+                "letterColors": {
+                    "setRedColorLetter": "Alt+R",
+                    "setGreenColorLetter": "Alt+G",
+                    "setBlueColorLetter": "Alt+B",
+                    "setYellowColorLetter": "Alt+Y",
+                    "setWhiteColorLetter": "Alt+W",
+                    "setBlackColorLetter": "Alt+K",
+                    "setOrangeColorLetter": "Alt+O",
+                    "setPurpleColorLetter": "Alt+P"
                 }
             }
         };
