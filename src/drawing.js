@@ -41,6 +41,15 @@ class DrawingApp {
         this.tempOffsetX = 0;
         this.tempOffsetY = 0;
         
+        // Variables para mover elementos individuales
+        this.elements = []; // Array para almacenar elementos dibujados
+        this.selectedElement = null;
+        this.isMovingElement = false;
+        this.elementDragOffset = { x: 0, y: 0 };
+        this.currentElementId = 0;
+        this.currentEndX = 0; // Para registrar coordenadas finales
+        this.currentEndY = 0;
+        
         this.setupCanvas();
         this.setupEventListeners();
         this.setupIPC();
@@ -193,7 +202,7 @@ class DrawingApp {
             this.ctx.lineWidth = this.currentSize;
             this.ctx.beginPath();
             this.ctx.moveTo(this.startX, this.startY);
-        } else if (this.currentTool === 'rectangle' || this.currentTool === 'circle') {
+        } else if (this.currentTool === 'rectangle' || this.currentTool === 'circle' || this.currentTool === 'arrow') {
             // Guardar el estado actual antes de empezar el preview
             this.savePreviewState();
         } else if (this.currentTool === 'move') {
@@ -201,6 +210,9 @@ class DrawingApp {
             this.dragStartX = this.startX;
             this.dragStartY = this.startY;
             this.startHandTool();
+        } else if (this.currentTool === 'moveElement') {
+            // Herramienta de mover elemento individual
+            this.selectElementAt(this.startX, this.startY);
         } else if (this.currentTool === 'recolor') {
             // Herramienta de recolorear - solo necesita un clic
             console.log(`🎨 Aplicando recolorear en (${this.startX}, ${this.startY}) con color ${this.currentColor}`);
@@ -230,8 +242,14 @@ class DrawingApp {
             case 'circle':
                 this.drawCirclePreview(currentX, currentY);
                 break;
+            case 'arrow':
+                this.drawArrowPreview(currentX, currentY);
+                break;
             case 'move':
                 this.handleHandDrag(currentX, currentY);
+                break;
+            case 'moveElement':
+                this.handleElementMove(currentX, currentY);
                 break;
             case 'recolor':
                 // La herramienta de recolorear no necesita arrastre
@@ -255,6 +273,10 @@ class DrawingApp {
     }
     
     drawRectanglePreview(x, y) {
+        // Guardar coordenadas finales
+        this.currentEndX = x;
+        this.currentEndY = y;
+        
         // Restaurar el estado guardado antes del preview
         this.restorePreviewState();
         
@@ -271,6 +293,10 @@ class DrawingApp {
     }
     
     drawCirclePreview(x, y) {
+        // Guardar coordenadas finales
+        this.currentEndX = x;
+        this.currentEndY = y;
+        
         // Restaurar el estado guardado antes del preview
         this.restorePreviewState();
         
@@ -287,6 +313,53 @@ class DrawingApp {
         this.ctx.beginPath();
         this.ctx.arc(this.startX, this.startY, radius, 0, 2 * Math.PI);
         this.ctx.stroke();
+    }
+    
+    drawArrowPreview(x, y) {
+        // Guardar coordenadas finales
+        this.currentEndX = x;
+        this.currentEndY = y;
+        
+        // Restaurar el estado guardado antes del preview
+        this.restorePreviewState();
+        
+        // Dibujar preview de la flecha
+        this.ctx.globalCompositeOperation = 'source-over';
+        this.ctx.strokeStyle = this.currentColor;
+        this.ctx.lineWidth = this.currentSize;
+        this.ctx.fillStyle = this.currentColor;
+        
+        // Calcular la línea principal
+        const deltaX = x - this.startX;
+        const deltaY = y - this.startY;
+        const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        if (length > 10) { // Solo dibujar si la flecha es lo suficientemente larga
+            // Dibujar línea principal
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.startX, this.startY);
+            this.ctx.lineTo(x, y);
+            this.ctx.stroke();
+            
+            // Calcular ángulo de la flecha
+            const angle = Math.atan2(deltaY, deltaX);
+            const arrowLength = Math.max(10, this.currentSize * 3);
+            const arrowAngle = Math.PI / 6; // 30 grados
+            
+            // Puntas de la flecha
+            const arrowX1 = x - arrowLength * Math.cos(angle - arrowAngle);
+            const arrowY1 = y - arrowLength * Math.sin(angle - arrowAngle);
+            const arrowX2 = x - arrowLength * Math.cos(angle + arrowAngle);
+            const arrowY2 = y - arrowLength * Math.sin(angle + arrowAngle);
+            
+            // Dibujar punta de la flecha
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, y);
+            this.ctx.lineTo(arrowX1, arrowY1);
+            this.ctx.moveTo(x, y);
+            this.ctx.lineTo(arrowX2, arrowY2);
+            this.ctx.stroke();
+        }
     }
     
     // Funciones para herramienta de mover
@@ -461,9 +534,19 @@ class DrawingApp {
                 return;
             }
             
+            // Manejar finalización para mover elemento individual
+            if (this.currentTool === 'moveElement') {
+                this.finishElementMove();
+                return;
+            }
+            
             // Para herramientas que modifican el canvas, guardar el estado
             if (this.currentTool === 'pen' || this.currentTool === 'eraser' || 
-                this.currentTool === 'rectangle' || this.currentTool === 'circle') {
+                this.currentTool === 'rectangle' || this.currentTool === 'circle' || this.currentTool === 'arrow') {
+                
+                // Registrar elemento si es una forma geométrica
+                this.registerElementOnComplete();
+                
                 this.saveState();
             }
         }
@@ -851,24 +934,33 @@ class DrawingApp {
     recolorArea(x, y, newColor) {
         console.log(`🎨 Iniciando recolorear en (${x}, ${y}) con color ${newColor}`);
         
+        // Validar coordenadas
+        const canvasX = Math.floor(x);
+        const canvasY = Math.floor(y);
+        
+        if (canvasX < 0 || canvasX >= this.canvas.width || canvasY < 0 || canvasY >= this.canvas.height) {
+            console.log('❌ Coordenadas fuera del canvas');
+            return;
+        }
+        
         // Obtener datos de imagen del canvas
         const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
         const data = imageData.data;
         
         // Convertir coordenadas a índice de pixel
-        const pixelIndex = (Math.floor(y) * this.canvas.width + Math.floor(x)) * 4;
-        
-        // Verificar que las coordenadas están dentro del canvas
-        if (pixelIndex < 0 || pixelIndex >= data.length) {
-            console.log('❌ Coordenadas fuera del canvas');
-            return;
-        }
+        const pixelIndex = (canvasY * this.canvas.width + canvasX) * 4;
         
         // Obtener color original en el punto clicado
         const originalR = data[pixelIndex];
         const originalG = data[pixelIndex + 1];
         const originalB = data[pixelIndex + 2];
         const originalA = data[pixelIndex + 3];
+        
+        // Validar que el pixel no sea transparente
+        if (originalA === 0) {
+            console.log('❌ No se puede recolorear área transparente');
+            return;
+        }
         
         // Convertir nuevo color hex a RGB
         const newRGB = this.hexToRgb(newColor);
@@ -886,9 +978,10 @@ class DrawingApp {
         console.log(`🎯 Color original: RGB(${originalR}, ${originalG}, ${originalB}, ${originalA})`);
         console.log(`🎯 Color nuevo: RGB(${newRGB.r}, ${newRGB.g}, ${newRGB.b})`);
         
-        // Función de flood fill
-        const pixelsToCheck = [{ x: Math.floor(x), y: Math.floor(y) }];
+        // Algoritmo de flood fill optimizado
+        const pixelsToCheck = [{ x: canvasX, y: canvasY }];
         const checkedPixels = new Set();
+        let processedPixels = 0;
         
         while (pixelsToCheck.length > 0) {
             const { x: currentX, y: currentY } = pixelsToCheck.pop();
@@ -900,7 +993,7 @@ class DrawingApp {
             if (checkedPixels.has(pixelKey)) continue;
             checkedPixels.add(pixelKey);
             
-            // Verificar límites
+            // Verificar límites del canvas
             if (currentX < 0 || currentX >= this.canvas.width || 
                 currentY < 0 || currentY >= this.canvas.height) {
                 continue;
@@ -909,7 +1002,7 @@ class DrawingApp {
             // Obtener índice del pixel actual
             const currentPixelIndex = (currentY * this.canvas.width + currentX) * 4;
             
-            // Verificar si el pixel actual tiene el color original
+            // Verificar si el pixel actual tiene el color original exacto
             if (data[currentPixelIndex] === originalR &&
                 data[currentPixelIndex + 1] === originalG &&
                 data[currentPixelIndex + 2] === originalB &&
@@ -919,10 +1012,11 @@ class DrawingApp {
                 data[currentPixelIndex] = newRGB.r;
                 data[currentPixelIndex + 1] = newRGB.g;
                 data[currentPixelIndex + 2] = newRGB.b;
-                // Mantener la transparencia original
-                // data[currentPixelIndex + 3] = originalA;
+                data[currentPixelIndex + 3] = originalA; // Mantener transparencia
                 
-                // Agregar píxeles vecinos para revisar
+                processedPixels++;
+                
+                // Agregar píxeles vecinos para revisar (4-conectado)
                 pixelsToCheck.push({ x: currentX + 1, y: currentY });
                 pixelsToCheck.push({ x: currentX - 1, y: currentY });
                 pixelsToCheck.push({ x: currentX, y: currentY + 1 });
@@ -936,7 +1030,7 @@ class DrawingApp {
         // Guardar estado
         this.saveState();
         
-        console.log(`✅ Recolorear completado. Píxeles revisados: ${checkedPixels.size}`);
+        console.log(`✅ Recolorear completado. Píxeles procesados: ${processedPixels}, Píxeles revisados: ${checkedPixels.size}`);
     }
     
     hexToRgb(hex) {
@@ -1003,6 +1097,227 @@ class DrawingApp {
             console.log('🎨 SIMULANDO: Recoloreando puntos azules a naranja...');
             this.recolorArea(100, 300, '#ffa500');
         }, 7000);
+    }
+    
+    // ==================== SISTEMA DE ELEMENTOS INDIVIDUALES ====================
+    
+    createElement(type, startX, startY, endX, endY, color, size) {
+        return {
+            id: ++this.currentElementId,
+            type: type,
+            startX: startX,
+            startY: startY,
+            endX: endX || startX,
+            endY: endY || startY,
+            color: color,
+            size: size,
+            bounds: this.calculateElementBounds(type, startX, startY, endX, endY, size)
+        };
+    }
+    
+    calculateElementBounds(type, startX, startY, endX, endY, size) {
+        const padding = size * 2; // Padding para facilitar la selección
+        
+        switch (type) {
+            case 'rectangle':
+                const minX = Math.min(startX, endX) - padding;
+                const maxX = Math.max(startX, endX) + padding;
+                const minY = Math.min(startY, endY) - padding;
+                const maxY = Math.max(startY, endY) + padding;
+                return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
+                
+            case 'circle':
+                const deltaX = endX - startX;
+                const deltaY = endY - startY;
+                const radius = Math.sqrt(deltaX * deltaX + deltaY * deltaY) + padding;
+                return { 
+                    x: startX - radius, 
+                    y: startY - radius, 
+                    width: radius * 2, 
+                    height: radius * 2 
+                };
+                
+            case 'arrow':
+                const minArrowX = Math.min(startX, endX) - padding;
+                const maxArrowX = Math.max(startX, endX) + padding;
+                const minArrowY = Math.min(startY, endY) - padding;
+                const maxArrowY = Math.max(startY, endY) + padding;
+                return { x: minArrowX, y: minArrowY, width: maxArrowX - minArrowX, height: maxArrowY - minArrowY };
+                
+            default:
+                return { x: startX - padding, y: startY - padding, width: padding * 2, height: padding * 2 };
+        }
+    }
+    
+    selectElementAt(x, y) {
+        // Buscar elemento en las coordenadas dadas (del más reciente al más antiguo)
+        for (let i = this.elements.length - 1; i >= 0; i--) {
+            const element = this.elements[i];
+            if (this.isPointInElement(x, y, element)) {
+                this.selectedElement = element;
+                this.isMovingElement = true;
+                this.elementDragOffset = {
+                    x: x - element.startX,
+                    y: y - element.startY
+                };
+                console.log(`📦 Elemento seleccionado: ${element.type} (ID: ${element.id})`);
+                this.highlightSelectedElement();
+                return;
+            }
+        }
+        
+        console.log('❌ No se encontró elemento en esa posición');
+        this.selectedElement = null;
+        this.isMovingElement = false;
+    }
+    
+    isPointInElement(x, y, element) {
+        const bounds = element.bounds;
+        return x >= bounds.x && x <= bounds.x + bounds.width &&
+               y >= bounds.y && y <= bounds.y + bounds.height;
+    }
+    
+    highlightSelectedElement() {
+        if (!this.selectedElement) return;
+        
+        // Dibujar un borde punteado alrededor del elemento seleccionado
+        this.ctx.save();
+        this.ctx.strokeStyle = '#ff0000';
+        this.ctx.lineWidth = 2;
+        this.ctx.setLineDash([5, 5]);
+        
+        const bounds = this.selectedElement.bounds;
+        this.ctx.strokeRect(bounds.x, bounds.y, bounds.width, bounds.height);
+        
+        this.ctx.restore();
+    }
+    
+    handleElementMove(x, y) {
+        if (!this.selectedElement || !this.isMovingElement) return;
+        
+        // Calcular nueva posición
+        const newStartX = x - this.elementDragOffset.x;
+        const newStartY = y - this.elementDragOffset.y;
+        
+        // Calcular desplazamiento
+        const deltaX = newStartX - this.selectedElement.startX;
+        const deltaY = newStartY - this.selectedElement.startY;
+        
+        // Actualizar posición del elemento
+        this.selectedElement.startX = newStartX;
+        this.selectedElement.startY = newStartY;
+        this.selectedElement.endX += deltaX;
+        this.selectedElement.endY += deltaY;
+        this.selectedElement.bounds = this.calculateElementBounds(
+            this.selectedElement.type,
+            this.selectedElement.startX,
+            this.selectedElement.startY,
+            this.selectedElement.endX,
+            this.selectedElement.endY,
+            this.selectedElement.size
+        );
+        
+        // Redibujar todo
+        this.redrawAllElements();
+    }
+    
+    finishElementMove() {
+        if (this.selectedElement) {
+            console.log(`✅ Elemento movido: ${this.selectedElement.type} (ID: ${this.selectedElement.id})`);
+            this.saveState();
+        }
+        
+        this.selectedElement = null;
+        this.isMovingElement = false;
+        this.elementDragOffset = { x: 0, y: 0 };
+    }
+    
+    redrawAllElements() {
+        // Limpiar canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // Redibujar todos los elementos
+        this.elements.forEach(element => {
+            this.drawElement(element);
+        });
+        
+        // Resaltar elemento seleccionado
+        if (this.selectedElement) {
+            this.highlightSelectedElement();
+        }
+    }
+    
+    drawElement(element) {
+        this.ctx.save();
+        this.ctx.globalCompositeOperation = 'source-over';
+        this.ctx.strokeStyle = element.color;
+        this.ctx.lineWidth = element.size;
+        
+        switch (element.type) {
+            case 'rectangle':
+                const width = element.endX - element.startX;
+                const height = element.endY - element.startY;
+                this.ctx.beginPath();
+                this.ctx.strokeRect(element.startX, element.startY, width, height);
+                break;
+                
+            case 'circle':
+                const deltaX = element.endX - element.startX;
+                const deltaY = element.endY - element.startY;
+                const radius = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                this.ctx.beginPath();
+                this.ctx.arc(element.startX, element.startY, radius, 0, 2 * Math.PI);
+                this.ctx.stroke();
+                break;
+                
+            case 'arrow':
+                this.drawArrowElement(element);
+                break;
+        }
+        
+        this.ctx.restore();
+    }
+    
+    drawArrowElement(element) {
+        const headLength = Math.max(10, element.size * 3);
+        const angle = Math.atan2(element.endY - element.startY, element.endX - element.startX);
+        
+        // Dibujar línea principal
+        this.ctx.beginPath();
+        this.ctx.moveTo(element.startX, element.startY);
+        this.ctx.lineTo(element.endX, element.endY);
+        this.ctx.stroke();
+        
+        // Dibujar punta de flecha
+        this.ctx.beginPath();
+        this.ctx.moveTo(element.endX, element.endY);
+        this.ctx.lineTo(
+            element.endX - headLength * Math.cos(angle - Math.PI / 6),
+            element.endY - headLength * Math.sin(angle - Math.PI / 6)
+        );
+        this.ctx.moveTo(element.endX, element.endY);
+        this.ctx.lineTo(
+            element.endX - headLength * Math.cos(angle + Math.PI / 6),
+            element.endY - headLength * Math.sin(angle + Math.PI / 6)
+        );
+        this.ctx.stroke();
+    }
+
+    // Modificar las funciones de stopDrawing para registrar elementos
+    registerElementOnComplete() {
+        if (this.currentTool === 'rectangle' || this.currentTool === 'circle' || this.currentTool === 'arrow') {
+            const element = this.createElement(
+                this.currentTool,
+                this.startX,
+                this.startY,
+                this.currentEndX || this.startX,
+                this.currentEndY || this.startY,
+                this.currentColor,
+                this.currentSize
+            );
+            this.elements.push(element);
+            console.log(`📦 Elemento registrado: ${element.type} (ID: ${element.id})`);
+        }
     }
 }
 

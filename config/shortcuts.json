@@ -14,9 +14,13 @@
       "drawCircle": "CommandOrControl+Alt+C",
       "drawEraser": "CommandOrControl+Alt+E",
       "moveTool": "CommandOrControl+Alt+M",
+      "moveElementTool": "CommandOrControl+Alt+N",
       "recolorTool": "CommandOrControl+Alt+B",
+      "arrowTool": "CommandOrControl+Alt+A",
       "changeColor": "CommandOrControl+Alt+Q",
-      "changeSize": "CommandOrControl+Alt+W"
+      "changeSize": "CommandOrControl+Alt+W",
+      "colorPalette": "CommandOrControl+Alt+L",
+      "togglePalette": "CommandOrControl+Shift+P"
     },
     "basicColors": {
       "setRedColor": "Alt+1",
@@ -62,10 +66,14 @@
       "drawRectangle": "Rectángulo (Cmd+Alt+R)",
       "drawCircle": "Círculo (Cmd+Alt+C)",
       "drawEraser": "Borrador (Cmd+Alt+E)",
-      "moveTool": "Mover (Cmd+Alt+M)",
+      "moveTool": "Mover Todo (Cmd+Alt+M)",
+      "moveElementTool": "Mover Elemento (Cmd+Alt+N)",
       "recolorTool": "Recolorear (Cmd+Alt+B)",
+      "arrowTool": "Flecha (Cmd+Alt+A)",
       "changeColor": "Cambiar Color (Cmd+Alt+Q)",
-      "changeSize": "Cambiar Tamaño (Cmd+Alt+W)"
+      "changeSize": "Cambiar Tamaño (Cmd+Alt+W)",
+      "colorPalette": "Paleta de Colores (Cmd+Alt+L)",
+      "togglePalette": "Mostrar/Ocultar Paleta (Cmd+Shift+P)"
     },
     "basicColors": {
       "setRedColor": "Rojo (Option+1)",

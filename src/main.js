@@ -10,7 +10,7 @@ let shortcutConfig;
 
 // Estados iniciales (se resetean al desactivar dibujo)
 let currentTool = 'rectangle';
-let currentColor = '#ff0000';
+let currentColor = '#ffff00'; // Amarillo por defecto
 let currentSize = 3;
 
 // Colores disponibles para el ciclo automático
@@ -98,7 +98,7 @@ function toggleDrawingMode() {
     
     // Resetear configuración a valores iniciales
     currentTool = 'rectangle';
-    currentColor = '#ff0000';
+    currentColor = '#ffff00'; // Amarillo por defecto
     currentSize = 3;
     colorIndex = 0;
     sizeIndex = 1;
@@ -173,7 +173,15 @@ function moveTool() {
   if (overlayWindow && isDrawingMode) {
     overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
   }
-  console.log('Herramienta: Mover dibujos');
+  console.log('Herramienta: Mover todo el dibujo');
+}
+
+function moveElementTool() {
+  currentTool = 'moveElement';
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Herramienta: Mover elemento individual');
 }
 
 function recolorTool() {
@@ -182,6 +190,14 @@ function recolorTool() {
     overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
   }
   console.log('Herramienta: Recolorear (Balde de pintura)');
+}
+
+function arrowTool() {
+  currentTool = 'arrow';
+  if (overlayWindow && isDrawingMode) {
+    overlayWindow.webContents.send('set-tool', { tool: currentTool, color: currentColor, size: currentSize });
+  }
+  console.log('Herramienta: Flecha');
 }
 
 function undoLastAction() {
@@ -195,7 +211,7 @@ function undoLastAction() {
 function resetAll() {
   // Resetear configuración a valores iniciales
   currentTool = 'rectangle';
-  currentColor = '#ff0000';
+  currentColor = '#ffff00'; // Amarillo por defecto
   currentSize = 3;
   colorIndex = 0;
   sizeIndex = 1;
@@ -501,8 +517,10 @@ function createTray() {
       { label: 'Rectángulo (Cmd+Alt+R)', click: drawRectangle },
       { label: 'Círculo (Cmd+Alt+C)', click: drawCircle },
       { label: 'Borrador (Cmd+Alt+E)', click: drawEraser },
-      { label: 'Mover (Cmd+Alt+M)', click: moveTool },
-      { label: 'Recolorear (Cmd+Alt+B)', click: recolorTool }
+      { label: 'Mover Todo (Cmd+Alt+M)', click: moveTool },
+      { label: 'Mover Elemento (Cmd+Alt+N)', click: moveElementTool },
+      { label: 'Recolorear (Cmd+Alt+B)', click: recolorTool },
+      { label: 'Flecha (Cmd+Alt+A)', click: arrowTool }
     ]},
     { label: 'Colores Básicos', submenu: [
       { label: 'Rojo (Option+1)', click: setRedColor },
@@ -563,7 +581,10 @@ function registerShortcuts() {
       undoLastAction: undoLastAction,
       exitDrawingMode: () => {
         if (isDrawingMode) {
+          console.log('Escape presionado - Saliendo del modo dibujo');
           toggleDrawingMode();
+        } else {
+          console.log('Escape presionado - Modo dibujo no activo, ignorando');
         }
       }
     },
@@ -573,7 +594,9 @@ function registerShortcuts() {
       drawCircle: drawCircle,
       drawEraser: drawEraser,
       moveTool: moveTool,
+      moveElementTool: moveElementTool,
       recolorTool: recolorTool,
+      arrowTool: arrowTool,
       changeColor: changeColor,
       changeSize: changeSize
     },
